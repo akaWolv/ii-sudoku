@@ -1,0 +1,32 @@
+enum Group {
+  SQUARE_1_1,
+  SQUARE_2_1,
+  SQUARE_3_1,
+  SQUARE_1_2,
+  SQUARE_2_2,
+  SQUARE_3_2,
+  SQUARE_1_3,
+  SQUARE_2_3,
+  SQUARE_3_3,
+
+  V_LINE_1,
+  V_LINE_2,
+  V_LINE_3,
+  V_LINE_4,
+  V_LINE_5,
+  V_LINE_6,
+  V_LINE_7,
+  V_LINE_8,
+  V_LINE_9,
+
+  H_LINE_1,
+  H_LINE_2,
+  H_LINE_3,
+  H_LINE_4,
+  H_LINE_5,
+  H_LINE_6,
+  H_LINE_7,
+  H_LINE_8,
+  H_LINE_9,
+}
+export default Group
