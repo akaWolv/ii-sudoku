@@ -40,7 +40,7 @@ function Controls() {
       <Grid container spacing={1} columns={5}>
         {
           ControlsItems.map(({ text }) => (
-            <ButtonContainer item xs={1}>
+            <ButtonContainer key={text} item xs={1}>
               <ControlButton variant="outlined">
                 <StyledSpan>
                   {text}
