@@ -4,10 +4,24 @@ import styled from '@emotion/styled'
 import BackspaceRoundedIcon from '@mui/icons-material/BackspaceRounded';
 import LooksOneRoundedIcon from '@mui/icons-material/LooksOneRounded';
 import { purple } from '@mui/material/colors'
+import { Field } from 'interfaces'
 
-const ControlsContainer = styled.div`
+type ControlsContainer = {
+  $isHighlightedField: boolean
+}
+const ControlsContainer = styled.div<ControlsContainer>`
   margin-top: 2em;
+  position: relative;
+  filter: ${({$isHighlightedField}) => $isHighlightedField ? 'none': 'blur(1px) grayscale(100%) opacity(40%)'};
 `;
+const Bland = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  // background-color: red;
+  width: 100%;
+  height: 100%;
+`
 
 const ButtonContainer = styled(Grid)`
 `;
@@ -33,15 +47,21 @@ const ControlsItems = [
   { value: 9, text: '9' },
 ]
 
-function Controls() {
+interface Controls {
+  changeSelectedFieldValue: Function
+  highlightedField?: Field
+}
+
+function Controls({ changeSelectedFieldValue, highlightedField }: Controls) {
+  const isHighlightedField = () => Boolean(highlightedField)
 
   return (
-    <ControlsContainer>
+    <ControlsContainer $isHighlightedField={isHighlightedField()}>
       <Grid container spacing={1} columns={5}>
         {
-          ControlsItems.map(({ text }) => (
+          ControlsItems.map(({ text, value }) => (
             <ButtonContainer key={text} item xs={1}>
-              <ControlButton variant="outlined">
+              <ControlButton variant="outlined" onClick={() => {changeSelectedFieldValue(value)}}>
                 <StyledSpan>
                   {text}
                 </StyledSpan>
@@ -50,6 +70,7 @@ function Controls() {
           ))
         }
       </Grid>
+      {!isHighlightedField() && <Bland />}
     </ControlsContainer>
   )
 }

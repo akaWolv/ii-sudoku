@@ -8,8 +8,8 @@ type Field = {
   square: Group
   hLine: Group
   vLine: Group
-  generatedValue: Number | null
-  value: Number | null
+  generatedValue: number | null
+  value: number | null
   isStatic: boolean
   isValid: boolean
 }

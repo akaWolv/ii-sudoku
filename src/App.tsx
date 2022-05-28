@@ -1,7 +1,7 @@
 import React, { useEffect, VoidFunctionComponent } from 'react'
 import AppProvider from 'common/AppProvider'
-import Board from './components/Board'
-import Controls from 'components/Controls'
+import Game from 'components/Game'
+import logo from 'indieimp.svg'
 
 const App = () => {
   useEffect(() => {
@@ -11,8 +11,8 @@ const App = () => {
   return (
     <AppProvider>
       <div className="App">
-        <Board />
-        <Controls />
+        <img src={logo} className="App-logo" alt="logo" />
+        <Game />
       </div>
     </AppProvider>
   )

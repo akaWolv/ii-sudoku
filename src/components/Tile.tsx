@@ -29,16 +29,16 @@ const StyledTile = styled(Grid)<{
   $isHighlightedVertically: boolean;
   $isHighlightedHorizontally: boolean;
   $isValid: boolean;
-  variant: TileVariant
+  $variant: TileVariant
 }>`
-  background-color: ${({ variant, $isHighlighted, $isValid }) => {
+  background-color: ${({ $variant, $isHighlighted, $isValid }) => {
   if (!$isValid) {
     return colors.red[900]
   }
   if ($isHighlighted) {
     return colors.grey[900]
   }
-  return variant === TileVariant.A ? colors.grey[800] : alpha(colors.grey[800], 0.6)
+  return $variant === TileVariant.A ? colors.grey[800] : alpha(colors.grey[800], 0.6)
 }};
   border-top: solid 1px ${({ $isHighlightedHorizontally }) => $isHighlightedHorizontally ? highlightedBorder : normalBorder};
   border-bottom: solid 1px ${({ $isHighlightedHorizontally }) => $isHighlightedHorizontally ? highlightedBorder : normalBorder};
@@ -84,7 +84,7 @@ const Tile: React.FC<Props> = (
       $isHighlightedVertically={highlightedVLine === vLine}
       $isHighlightedHorizontally={highlightedHLine === hLine}
       $isValid={isValid}
-      variant={pickTileVariant(square)}
+      $variant={pickTileVariant(square)}
     >
       <StyledButton
         variant='outlined'
