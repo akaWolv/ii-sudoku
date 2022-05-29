@@ -48,12 +48,21 @@ const theme = createTheme({
   // breakpoints: {
   //   values: {
   //     xs: 600,
-  //     sm: 1300,
+  //     sm: 900,
   //     md: 1500,
   //     lg: 1700,
   //     xl: 2000
   //   }
   // },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 700,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
   palette: {
     mode: 'light',
     primary: {
@@ -84,8 +93,6 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          // color: colors.grey[100],
-          // color: colors.purple[200],
           outlined: {
             boxShadow: 'none',
             // backgroundColor: colors.yellow600,

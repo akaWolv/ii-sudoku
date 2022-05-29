@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import logo from '../indieimp.svg'
 import '../App.css'
 import { Grid } from '@mui/material'
-import Tile from './Tile'
-import { Field } from 'interfaces'
 import useBoardManager from '_hooks/useBoardManager'
-import Group from 'constants/Group'
 import Controls from 'components/Controls'
 import Board from 'components/Board'
+import styled from 'styled-components'
+
+const StyledGame = styled.div`
+  padding: 1em;
+`
 
 function Game() {
   const {
@@ -24,24 +25,36 @@ function Game() {
 
   const fieldList = getFieldList()
   return (
-    <div>
+    <StyledGame>
       {/*<header className="App-header">*/}
       {/*  Sudoku*/}
       {/*</header>*/}
       <span style={{ position: 'absolute', top: 5, left: 5 }}>steps: {getStepsToGenerate()}</span>
       <span style={{ position: 'absolute', top: 20, left: 5 }}>id: {getHighlightedField()?.id || 'none'}</span>
-      {(!getIsGenerated()) ? 'Loading' : (
-        <Board
-          fieldList={fieldList}
-          highlightedField={getHighlightedField()}
-          setHighlightedField={setHighlightedField}
-        />
-      )}
-      <Controls
-        changeSelectedFieldValue={changeSelectedFieldValue}
-        highlightedField={getHighlightedField()}
-      />
-    </div>
+      <Grid
+        container
+        spacing={0}
+        direction={"row"}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Grid item xs={12} sm={6} md={5} lg={4}>
+          {(!getIsGenerated()) ? 'Loading' : (
+            <Board
+              fieldList={fieldList}
+              highlightedField={getHighlightedField()}
+              setHighlightedField={setHighlightedField}
+            />
+          )}
+        </Grid>
+        <Grid item xs={12} sm={12} md={3} lg={2}>
+          <Controls
+            changeSelectedFieldValue={changeSelectedFieldValue}
+            highlightedField={getHighlightedField()}
+          />
+        </Grid>
+      </Grid>
+    </StyledGame>
   )
 }
 

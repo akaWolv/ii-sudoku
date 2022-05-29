@@ -28,12 +28,16 @@ const StyledTile = styled(Grid)<{
   $isHighlighted: boolean;
   $isHighlightedVertically: boolean;
   $isHighlightedHorizontally: boolean;
+  $isHighlightedSameNumber: boolean;
   $isValid: boolean;
   $variant: TileVariant
 }>`
-  background-color: ${({ $variant, $isHighlighted, $isValid }) => {
+  background-color: ${({ $variant, $isHighlighted, $isValid, $isHighlightedSameNumber }) => {
   if (!$isValid) {
     return colors.red[900]
+  }
+  if ($isHighlightedSameNumber) {
+    return alpha(colors.orange[900], 0.3)
   }
   if ($isHighlighted) {
     return colors.grey[900]
@@ -55,7 +59,8 @@ type StyledSpanProps = {
   isStatic: boolean
 }
 const StyledSpan = styled.span<StyledSpanProps>`
-  color: ${({isStatic}) => isStatic ? colors.grey[100] : colors.amber[700]}
+  color: ${({isStatic}) => isStatic ? colors.grey[100] : colors.amber[700]};
+  font-size: 1.4rem;
 `
 
 type Props = {
@@ -69,9 +74,13 @@ const Tile: React.FC<Props> = (
     highlightedField,
     handlePick
   }) => {
-
   const { id, square, hLine, vLine, generatedValue, value, isStatic, isValid } = field
-  const { id :highlightedId, hLine: highlightedHLine, vLine: highlightedVLine } = highlightedField || {}
+  const {
+    id :highlightedId,
+    hLine: highlightedHLine,
+    vLine: highlightedVLine,
+    value: highlightedValue
+  } = highlightedField || {}
 
   const pickTileVariant = (square: Group): TileVariant =>
     VariantASquares.includes(square) ? TileVariant.A : TileVariant.B
@@ -83,14 +92,13 @@ const Tile: React.FC<Props> = (
       $isHighlighted={highlightedId === id}
       $isHighlightedVertically={highlightedVLine === vLine}
       $isHighlightedHorizontally={highlightedHLine === hLine}
+      $isHighlightedSameNumber={Boolean(highlightedValue) && highlightedValue === value}
       $isValid={isValid}
       $variant={pickTileVariant(square)}
     >
       <StyledButton
         variant='outlined'
-        onClick={() => {
-          isStatic ? handlePick(undefined) : handlePick(field)
-        }}
+        onClick={() => handlePick(field)}
       >
         <StyledSpan isStatic={isStatic}>
           {String((isStatic ? generatedValue : value) || ' ')}

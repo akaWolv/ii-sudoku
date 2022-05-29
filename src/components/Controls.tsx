@@ -1,8 +1,7 @@
-import { Button, Grid, IconButton } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import styled from '@emotion/styled'
-
 import BackspaceRoundedIcon from '@mui/icons-material/BackspaceRounded';
-import LooksOneRoundedIcon from '@mui/icons-material/LooksOneRounded';
+
 import { purple } from '@mui/material/colors'
 import { Field } from 'interfaces'
 
@@ -10,7 +9,7 @@ type ControlsContainer = {
   $isHighlightedField: boolean
 }
 const ControlsContainer = styled.div<ControlsContainer>`
-  margin-top: 2em;
+  margin-top: 1em;
   position: relative;
   filter: ${({$isHighlightedField}) => $isHighlightedField ? 'none': 'blur(1px) grayscale(100%) opacity(40%)'};
 `;
@@ -18,24 +17,24 @@ const Bland = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  // background-color: red;
   width: 100%;
   height: 100%;
 `
 
 const ButtonContainer = styled(Grid)`
+  margin-bottom: 0.5em;
 `;
 const ControlButton = styled(Button)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: 6.5vw;
+  font-size: 1.9em;
 `;
 const StyledSpan = styled.span`
   color: ${purple[100]}
 `
 const ControlsItems = [
-  { value: 0, text: 'x' },
+  { value: 0, text: <BackspaceRoundedIcon /> },
   { value: 1, text: '1' },
   { value: 2, text: '2' },
   { value: 3, text: '3' },
@@ -53,14 +52,21 @@ interface Controls {
 }
 
 function Controls({ changeSelectedFieldValue, highlightedField }: Controls) {
-  const isHighlightedField = () => Boolean(highlightedField)
+  const isHighlightedField = () => Boolean(highlightedField && !highlightedField.isStatic)
 
   return (
     <ControlsContainer $isHighlightedField={isHighlightedField()}>
-      <Grid container spacing={1} columns={5}>
+      <Grid
+        container
+        spacing={1}
+        columns={10}
+        direction="row"
+        justifyContent="center"
+        alignItems="flex-start"
+      >
         {
           ControlsItems.map(({ text, value }) => (
-            <ButtonContainer key={text} item xs={1}>
+            <ButtonContainer key={String(value)} item xs={2} sm={1} md={4}>
               <ControlButton variant="outlined" onClick={() => {changeSelectedFieldValue(value)}}>
                 <StyledSpan>
                   {text}
