@@ -92,7 +92,9 @@ const Tile: React.FC<Props> = (
           isStatic ? handlePick(undefined) : handlePick(field)
         }}
       >
-        <StyledSpan isStatic={isStatic}>{String((isStatic ? generatedValue : value) || '-')}</StyledSpan>
+        <StyledSpan isStatic={isStatic}>
+          {String((isStatic ? generatedValue : value) || ' ')}
+        </StyledSpan>
       </StyledButton>
     </StyledTile>
   )

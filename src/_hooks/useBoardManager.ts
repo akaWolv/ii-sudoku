@@ -84,7 +84,6 @@ const useBoardManager = () => {
     }
 
     const fieldsIdList = fields.map(({id}) => id)
-    console.log(fieldsIdList)
     setFieldList(fieldList.map((field) => {
       if (fieldsIdList.includes(field.id)) {
         return {...field}

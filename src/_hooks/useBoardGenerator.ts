@@ -48,7 +48,6 @@ const useBoardGenerator = () => {
     const pickedNumber = availableNumbers[Math.floor(Math.random() * availableNumbers.length)]
 
     // fill number
-    // field.value =
     field.generatedValue = pickedNumber
 
     return field
@@ -125,6 +124,7 @@ const useBoardGenerator = () => {
     return fieldList.map((field) => {
       if (fieldIdListToMakeStatic.includes(field.id)) {
         field.isStatic = true
+        field.value = field.generatedValue
         return {...field}
       }
       return field
@@ -138,7 +138,6 @@ const useBoardGenerator = () => {
     const generatedFieldsList = fieldListInSquares.flat().sort((a, b) => a.order - b.order)
     return pickStaticFields(generatedFieldsList)
   }
-
 
   const getReport = () => report
 
