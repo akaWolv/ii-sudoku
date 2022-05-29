@@ -13,4 +13,15 @@ type Field = {
   isStatic: boolean
   isValid: boolean
 }
-export type { Field }
+
+type DifficulytLevel = {
+  level: number
+  staticTiles: number
+  tilesPerSquare: number[]
+  text: string
+}
+
+export type {
+  Field,
+  DifficulytLevel
+}

@@ -3,6 +3,7 @@ import Group from 'constants/Group'
 import { useState } from 'react'
 import DefaultFieldList from 'constants/DefaultFieldList'
 import useBoardHelper from '_hooks/useBoardHelper'
+import DifficultyLevelList from 'constants/DifficultLevelList'
 
 const SQUARE_ORDER: Group[] = [
   Group.SQUARE_1_3,
@@ -26,7 +27,8 @@ const useBoardGenerator = () => {
     field: Field,
     fieldList: Field[]
   ): number[] => {
-    const excludedNumbers: (number|null)[] = getFieldsFromSameGroups(field, fieldList).map(({value}) => value)
+    const excludedNumbers: (number | null)[] = getFieldsFromSameGroups(field, fieldList)
+      .map(({ generatedValue }) => generatedValue)
     const baseNumbers = Array.from(Array(10).keys()).slice(1)
     const availableNumbers = baseNumbers.filter(x => !excludedNumbers.includes(x))
     console.log({
@@ -46,7 +48,8 @@ const useBoardGenerator = () => {
     const pickedNumber = availableNumbers[Math.floor(Math.random() * availableNumbers.length)]
 
     // fill number
-    field.value = field.generatedValue = pickedNumber
+    // field.value =
+    field.generatedValue = pickedNumber
 
     return field
   }
@@ -62,10 +65,14 @@ const useBoardGenerator = () => {
         [...previouslyGeneratedfieldList, ...generatedSquareFieldList]
       )
 
-      if (field.value) {
+      if (field.generatedValue) {
         generatedSquareFieldList.push(field)
       } else {
-        report.push({ action: 'incomplete_square', square: Group[squareLevel], fieldsGenerated: generatedSquareFieldList.length })
+        report.push({
+          action: 'incomplete_square',
+          square: Group[squareLevel],
+          fieldsGenerated: generatedSquareFieldList.length
+        })
         throw new Error('square error')
       }
     }
@@ -93,12 +100,45 @@ const useBoardGenerator = () => {
     return generatedSquareFieldList
   }
 
+  const DEFAULT_LEVEL = 2
+  const pickStaticFields = (fieldList: Field[]): Field[] => {
+    // 38 fields for easy
+    // 32 fields for medium
+    // 28 fields for hard
+    // 22 fields for expert
+    // 16 fields for master
+    const difficultyLevel = DifficultyLevelList.filter(({ level }) => level === DEFAULT_LEVEL)[0]
+    const { tilesPerSquare } = difficultyLevel
+    const fieldIdListToMakeStatic: string[] = []
+    SQUARE_ORDER.forEach((square) => {
+      const randNumber = Math.floor(Math.random() * tilesPerSquare.length)
+      const numberOfTilesToMakeStatic = tilesPerSquare.splice(randNumber, 1).pop()
+      fieldIdListToMakeStatic.push(
+        ...fieldList
+          .filter((field) => field.square === square)
+          .sort(() => Math.random() - 0.5)
+          .slice(0, numberOfTilesToMakeStatic)
+          .map(({ id }) => id)
+      )
+    })
+
+    return fieldList.map((field) => {
+      if (fieldIdListToMakeStatic.includes(field.id)) {
+        field.isStatic = true
+        return {...field}
+      }
+      return field
+    })
+  }
+
   const generateBoard = () => {
     const squareLevel = 0
     const fieldListInSquares = generateSquare([], squareLevel, report)
     setReport(report)
-    return fieldListInSquares.flat().sort((a, b) => a.order - b.order)
+    const generatedFieldsList = fieldListInSquares.flat().sort((a, b) => a.order - b.order)
+    return pickStaticFields(generatedFieldsList)
   }
+
 
   const getReport = () => report
 
