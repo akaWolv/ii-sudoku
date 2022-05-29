@@ -11,24 +11,22 @@ interface Board {
 
 function Board({ fieldList, highlightedField, setHighlightedField }: Board) {
   return (
-    <div>
-      <Grid container spacing={0} columns={9}>
-        {
-          fieldList.map(field => {
-              const { id } = field
-              return (
-                <Tile
-                  key={id}
-                  field={field}
-                  highlightedField={highlightedField}
-                  handlePick={setHighlightedField}
-                />
-              )
-            }
-          )
-        }
-      </Grid>
-    </div>
+    <Grid container spacing={0} columns={9}>
+      {
+        fieldList.map(field => {
+            const { id } = field
+            return (
+              <Tile
+                key={id}
+                field={field}
+                highlightedField={highlightedField}
+                handlePick={setHighlightedField}
+              />
+            )
+          }
+        )
+      }
+    </Grid>
   )
 }
 

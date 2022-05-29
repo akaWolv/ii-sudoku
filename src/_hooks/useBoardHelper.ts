@@ -1,4 +1,5 @@
-import { Field } from 'interfaces'
+import { DifficultyLevel, Field } from 'interfaces'
+import DifficultLevelList from 'constants/DifficultLevelList'
 
 const useBoardHelper = () => {
   const getFieldsFromSameGroups = (
@@ -17,8 +18,15 @@ const useBoardHelper = () => {
       })
   }
 
+  const getDifficultyLevelByKey = (levelKey: string): DifficultyLevel => {
+    return DifficultLevelList.filter(({key}) => key === levelKey).pop()
+    ||  DifficultLevelList.filter(({isDefault}) => Boolean(isDefault)).pop()
+    || DifficultLevelList[0]
+  }
+
   return {
-    getFieldsFromSameGroups
+    getFieldsFromSameGroups,
+    getDifficultyLevelByKey
   }
 }
 

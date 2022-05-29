@@ -14,14 +14,16 @@ type Field = {
   isValid: boolean
 }
 
-type DifficulytLevel = {
+type DifficultyLevel = {
   level: number
+  key: string
   staticTiles: number
   tilesPerSquare: number[]
   text: string
+  isDefault?: boolean
 }
 
 export type {
   Field,
-  DifficulytLevel
+  DifficultyLevel
 }

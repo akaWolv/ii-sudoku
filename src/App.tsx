@@ -1,7 +1,7 @@
-import React, { useEffect, VoidFunctionComponent } from 'react'
+import React, { useEffect } from 'react'
 import AppProvider from 'common/AppProvider'
 import Game from 'components/Game'
-import logo from 'indieimp.svg'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 const App = () => {
   useEffect(() => {
@@ -11,8 +11,13 @@ const App = () => {
   return (
     <AppProvider>
       <div className="App">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Game />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Game />}>
+              <Route path=":difficultyLevelKey" element={<Game />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
       </div>
     </AppProvider>
   )

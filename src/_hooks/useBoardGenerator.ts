@@ -1,9 +1,8 @@
-import { Field } from 'interfaces'
+import { DifficultyLevel, Field } from 'interfaces'
 import Group from 'constants/Group'
 import { useState } from 'react'
 import DefaultFieldList from 'constants/DefaultFieldList'
 import useBoardHelper from '_hooks/useBoardHelper'
-import DifficultyLevelList from 'constants/DifficultLevelList'
 
 const SQUARE_ORDER: Group[] = [
   Group.SQUARE_1_3,
@@ -19,7 +18,7 @@ const SQUARE_ORDER: Group[] = [
   Group.SQUARE_3_1,
 ]
 
-const useBoardGenerator = () => {
+const useBoardGenerator = (difficultyLevel: DifficultyLevel) => {
   const { getFieldsFromSameGroups } = useBoardHelper()
   const [report, setReport] = useState<any[]>([])
 
@@ -106,7 +105,7 @@ const useBoardGenerator = () => {
     // 28 fields for hard
     // 22 fields for expert
     // 16 fields for master
-    const difficultyLevel = DifficultyLevelList.filter(({ level }) => level === DEFAULT_LEVEL)[0]
+    // const difficultyLevel = DifficultyLevelList.filter(({ level }) => level === DEFAULT_LEVEL)[0]
     const { tilesPerSquare } = difficultyLevel
     const fieldIdListToMakeStatic: string[] = []
     SQUARE_ORDER.forEach((square) => {

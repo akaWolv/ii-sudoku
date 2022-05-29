@@ -1,16 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import '../App.css'
 import { Grid } from '@mui/material'
 import useBoardManager from '_hooks/useBoardManager'
 import Controls from 'components/Controls'
 import Board from 'components/Board'
+import TopBar from 'components/TopBar'
 import styled from 'styled-components'
+import { useParams } from 'react-router-dom'
+
+import useBoardHelper from '_hooks/useBoardHelper'
 
 const StyledGame = styled.div`
   padding: 1em;
 `
 
 function Game() {
+  const { difficultyLevelKey } = useParams()
+
+  const { getDifficultyLevelByKey } = useBoardHelper()
+  const difficultyLevel = getDifficultyLevelByKey(String(difficultyLevelKey))
+
   const {
     getIsGenerated,
     getHighlightedField,
@@ -18,19 +27,16 @@ function Game() {
     changeSelectedFieldValue,
     getFieldList,
     getStepsToGenerate
-  } = useBoardManager()
-
-  useEffect(() => {
-  }, [])
+  } = useBoardManager(difficultyLevel)
 
   const fieldList = getFieldList()
+
   return (
     <StyledGame>
-      {/*<header className="App-header">*/}
-      {/*  Sudoku*/}
-      {/*</header>*/}
-      <span style={{ position: 'absolute', top: 5, left: 5 }}>steps: {getStepsToGenerate()}</span>
-      <span style={{ position: 'absolute', top: 20, left: 5 }}>id: {getHighlightedField()?.id || 'none'}</span>
+      <TopBar
+        getStepsToGenerate={getStepsToGenerate}
+        difficultyLevel={difficultyLevel}
+      />
       <Grid
         container
         spacing={0}

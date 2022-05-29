@@ -1,10 +1,9 @@
-import { Field } from 'interfaces'
-import Group from 'constants/Group'
+import { DifficultyLevel, Field } from 'interfaces'
 import { useState } from 'react'
 import useBoardGenerator from '_hooks/useBoardGenerator'
 
-const useBoardManager = () => {
-  const { generateBoard, getReport } = useBoardGenerator()
+const useBoardManager = (difficultyLevel: DifficultyLevel) => {
+  const { generateBoard, getReport } = useBoardGenerator(difficultyLevel)
   const [isGenerated, setIsGenerated] = useState<boolean>(false)
   const [fieldList, setFieldList] = useState<Field[]>([])
   const [highlightedField, setHighlightedField] = useState<Field | undefined>(undefined)

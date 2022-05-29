@@ -40,20 +40,11 @@ const theme = createTheme({
       lineHeight: 1.5
     },
     caption: {
-      fontSize: '11px',
+      fontSize: '12px',
       fontWeight: 400,
       lineHeight: 1.3
     }
   },
-  // breakpoints: {
-  //   values: {
-  //     xs: 600,
-  //     sm: 900,
-  //     md: 1500,
-  //     lg: 1700,
-  //     xl: 2000
-  //   }
-  // },
   breakpoints: {
     values: {
       xs: 0,
@@ -94,19 +85,10 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           outlined: {
-            boxShadow: 'none',
-            // backgroundColor: colors.yellow600,
-            '&:hover': {
-              // backgroundColor: colors.yellow400
-            }
+            boxShadow: 'none'
           },
           text: {
-            boxShadow: 'none',
-            '&:hover': {
-              // backgroundColor: colors.yellow400
-            },
-            '&:active': {
-            },
+            boxShadow: 'none'
           }
         },
       }
