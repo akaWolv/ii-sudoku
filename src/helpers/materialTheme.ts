@@ -40,7 +40,7 @@ const theme = createTheme({
       lineHeight: 1.5
     },
     caption: {
-      fontSize: '12px',
+      fontSize: '14px',
       fontWeight: 400,
       lineHeight: 1.3
     }

@@ -26,25 +26,17 @@ const MenuModal = () => {
 
   return (
     <>
-      <IconButton
+      <Button
         size='large'
-        color="primary"
-        aria-label="upload picture"
-        component="button"
+        variant="text"
         onClick={handleOpen}
+        startIcon={<MenuIcon />}
       >
-        <MenuIcon />
-      </IconButton>
-      {/*<Button*/}
-      {/*  size='large'*/}
-      {/*  variant="outlined"*/}
-      {/*  onClick={handleOpen}*/}
-      {/*  endIcon={<MenuIcon />}*/}
-      {/*>*/}
-      {/*  Menu*/}
-      {/*</Button>*/}
+        Menu
+      </Button>
       <Modal
         open={open}
+        disableAutoFocus={true}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
