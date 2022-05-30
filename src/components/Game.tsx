@@ -15,9 +15,9 @@ const StyledGame = styled.div`
 `
 
 function Game() {
-  const { difficultyLevelKey } = useParams()
+  const { difficultyLevelKey, gameKey } = useParams()
 
-  const { getDifficultyLevelByKey } = useBoardHelper()
+  const { getDifficultyLevelByKey, getBoardCode, getBoardFromCode } = useBoardHelper()
   const difficultyLevel = getDifficultyLevelByKey(String(difficultyLevelKey))
 
   const {
@@ -25,12 +25,15 @@ function Game() {
     getHighlightedField,
     setHighlightedField,
     changeSelectedFieldValue,
-    getFieldList,
+    getFieldListFromKey,
     getStepsToGenerate
   } = useBoardManager(difficultyLevel)
 
-  const fieldList = getFieldList()
+  const fieldList = getFieldListFromKey(gameKey)
+  if (!fieldList) {
+    return <>game code is corrupted</>
 
+  }
   return (
     <StyledGame>
       <TopBar

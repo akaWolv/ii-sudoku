@@ -57,8 +57,7 @@ const MenuModal = () => {
                     key={key}
                     variant='outlined'
                     onClick={() => {
-                      navigate(`/${key}`)
-                      window.location.reload()
+                      window.location.href = `/${key}`
                     }}
                     fullWidth={true}>
                     {`${text} (${staticTiles} tiles)`}

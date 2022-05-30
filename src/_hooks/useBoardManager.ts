@@ -1,8 +1,10 @@
 import { DifficultyLevel, Field } from 'interfaces'
 import { useState } from 'react'
 import useBoardGenerator from '_hooks/useBoardGenerator'
+import useBoardHelper from '_hooks/useBoardHelper'
 
 const useBoardManager = (difficultyLevel: DifficultyLevel) => {
+  const { getBoardFromCode } = useBoardHelper()
   const { generateBoard, getReport } = useBoardGenerator(difficultyLevel)
   const [isGenerated, setIsGenerated] = useState<boolean>(false)
   const [fieldList, setFieldList] = useState<Field[]>([])
@@ -22,6 +24,20 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
         }
         return false
       })
+  }
+
+  const getFieldListFromKey = (gameKey?: string): Field[]|false => {
+    if (isGenerated) {
+      return fieldList
+    }
+
+    const predefinedFieldList = getBoardFromCode(gameKey || '')
+    if (predefinedFieldList) {
+      setFieldList(predefinedFieldList)
+      setIsGenerated(true)
+      return predefinedFieldList
+    }
+    return false
   }
 
   const getFieldList = () => {
@@ -116,6 +132,7 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
     setHighlightedField,
     changeSelectedFieldValue,
     getFieldList,
+    getFieldListFromKey,
     getStepsToGenerate,
     getReport: getReport(),
     getFieldsFromSameGroups
