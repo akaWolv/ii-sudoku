@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../App.css'
 import { Grid } from '@mui/material'
 import useBoardManager from '_hooks/useBoardManager'
@@ -9,15 +9,17 @@ import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
 
 import useBoardHelper from '_hooks/useBoardHelper'
+import { Field } from 'interfaces'
 
 const StyledGame = styled.div`
   padding: 1em;
 `
 
 function Game() {
+  const [fieldList, setFieldList] = useState<Field[]|undefined>(undefined);
   const { difficultyLevelKey, gameKey } = useParams()
 
-  const { getDifficultyLevelByKey, getBoardCode, getBoardFromCode } = useBoardHelper()
+  const { getDifficultyLevelByKey } = useBoardHelper()
   const difficultyLevel = getDifficultyLevelByKey(String(difficultyLevelKey))
 
   const {
@@ -29,11 +31,20 @@ function Game() {
     getStepsToGenerate
   } = useBoardManager(difficultyLevel)
 
-  const fieldList = getFieldListFromKey(gameKey)
+
+  // const fieldList = getFieldListFromKey(gameKey)
+  useEffect(() => {
+    console.log('gameKey')
+    // if (unparsedFieldList && unparsedFieldList.length === 81) {
+    //   setFieldList(unparsedFieldList)
+    // }
+    setFieldList(getFieldListFromKey(gameKey) || undefined)
+  }, [gameKey])
+
   if (!fieldList) {
     return <>game code is corrupted</>
-
   }
+
   return (
     <StyledGame>
       <TopBar

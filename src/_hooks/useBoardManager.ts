@@ -1,10 +1,12 @@
 import { DifficultyLevel, Field } from 'interfaces'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import useBoardGenerator from '_hooks/useBoardGenerator'
 import useBoardHelper from '_hooks/useBoardHelper'
 
 const useBoardManager = (difficultyLevel: DifficultyLevel) => {
-  const { getBoardFromCode } = useBoardHelper()
+  const navigate = useNavigate()
+  const { getBoardCode, getBoardFromCode } = useBoardHelper()
   const { generateBoard, getReport } = useBoardGenerator(difficultyLevel)
   const [isGenerated, setIsGenerated] = useState<boolean>(false)
   const [fieldList, setFieldList] = useState<Field[]>([])
@@ -27,10 +29,6 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
   }
 
   const getFieldListFromKey = (gameKey?: string): Field[]|false => {
-    if (isGenerated) {
-      return fieldList
-    }
-
     const predefinedFieldList = getBoardFromCode(gameKey || '')
     if (predefinedFieldList) {
       setFieldList(predefinedFieldList)
@@ -120,6 +118,8 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
     })
     const validatedFields = validateFields(highlightedField)
     setHighlightedField({...highlightedField})
+    const boardCode = getBoardCode(fieldList)
+    navigate(`/${difficultyLevel.key}/${boardCode}`)
     reloadFields([...validatedFields])
   }
 
