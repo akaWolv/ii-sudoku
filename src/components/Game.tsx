@@ -28,17 +28,13 @@ function Game() {
     setHighlightedField,
     changeSelectedFieldValue,
     getFieldListFromKey,
-    getStepsToGenerate
+    getStepsToGenerate,
+    isGameFinished
   } = useBoardManager(difficultyLevel)
 
-
-  // const fieldList = getFieldListFromKey(gameKey)
   useEffect(() => {
-    console.log('gameKey')
-    // if (unparsedFieldList && unparsedFieldList.length === 81) {
-    //   setFieldList(unparsedFieldList)
-    // }
     setFieldList(getFieldListFromKey(gameKey) || undefined)
+
   }, [gameKey])
 
   if (!fieldList) {
@@ -64,6 +60,8 @@ function Game() {
               fieldList={fieldList}
               highlightedField={getHighlightedField()}
               setHighlightedField={setHighlightedField}
+              isGameFinished={isGameFinished()}
+              difficultyLevel={difficultyLevel}
             />
           )}
         </Grid>

@@ -123,7 +123,11 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
     reloadFields([...validatedFields])
   }
 
-  const getHighlightedField= (): Field|undefined  => highlightedField
+  const isGameFinished = (): boolean => {
+    return fieldList.filter(({value, isStatic, isValid}) => (isStatic || Boolean(value)) && isValid).length === 81
+  }
+
+  const getHighlightedField = (): Field|undefined  => highlightedField
   const getIsGenerated = (): boolean  => isGenerated
 
   return {
@@ -135,7 +139,8 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
     getFieldListFromKey,
     getStepsToGenerate,
     getReport: getReport(),
-    getFieldsFromSameGroups
+    getFieldsFromSameGroups,
+    isGameFinished
   }
 }
 

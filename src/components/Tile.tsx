@@ -30,7 +30,7 @@ const StyledTile = styled(Grid)<{
   $isHighlightedHorizontally: boolean;
   $isHighlightedSameNumber: boolean;
   $isValid: boolean;
-  $variant: TileVariant
+  $variant: TileVariant;
 }>`
   background-color: ${({ $variant, $isHighlighted, $isValid, $isHighlightedSameNumber }) => {
   if (!$isValid) {
@@ -66,7 +66,7 @@ const StyledSpan = styled.span<StyledSpanProps>`
 type Props = {
   field: Field,
   handlePick: Function,
-  highlightedField?: Field,
+  highlightedField?: Field
 }
 const Tile: React.FC<Props> = (
   {

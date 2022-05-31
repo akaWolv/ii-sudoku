@@ -1,17 +1,25 @@
 import '../App.css'
 import { Grid } from '@mui/material'
 import Tile from './Tile'
-import { Field } from 'interfaces'
+import { DifficultyLevel, Field } from 'interfaces'
+import styled from 'styled-components'
+import React from 'react'
+import WinnerBlend from 'components/WinnerBlend'
+
+const StyledBoard = styled(Grid)`
+  position: relative;
+`
 
 interface Board {
   fieldList: Field[]
-  highlightedField: Field|undefined,
-  setHighlightedField: Function
+  highlightedField: Field | undefined,
+  setHighlightedField: Function,
+  isGameFinished: boolean,
+  difficultyLevel: DifficultyLevel
 }
-
-function Board({ fieldList, highlightedField, setHighlightedField }: Board) {
+function Board({ fieldList, highlightedField, setHighlightedField, difficultyLevel, isGameFinished }: Board) {
   return (
-    <Grid container spacing={0} columns={9}>
+    <StyledBoard container spacing={0} columns={9}>
       {
         fieldList.map(field => {
             const { id } = field
@@ -26,7 +34,8 @@ function Board({ fieldList, highlightedField, setHighlightedField }: Board) {
           }
         )
       }
-    </Grid>
+      { isGameFinished && <WinnerBlend difficultyLevel={difficultyLevel} /> }
+    </StyledBoard>
   )
 }
 
