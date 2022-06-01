@@ -6,7 +6,7 @@ import useBoardHelper from '_hooks/useBoardHelper'
 
 const useBoardManager = (difficultyLevel: DifficultyLevel) => {
   const navigate = useNavigate()
-  const { getBoardCode, getBoardFromCode } = useBoardHelper()
+  const { getBoardCode, getBoardFromCode, getStopwatch, pauseStopwatch } = useBoardHelper()
   const { getReport } = useBoardGenerator(difficultyLevel)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
   const [fieldList, setFieldList] = useState<Field[]>([])
@@ -34,11 +34,13 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
     if (predefinedFieldList) {
       setFieldList(predefinedFieldList)
       setIsLoaded(true)
-      setIsGameFinished(
-        predefinedFieldList
+      const isGameFinished = predefinedFieldList
           .filter(({ value, isStatic, isValid }) => (isStatic || Boolean(value)) && isValid)
           .length === 81
-      )
+      setIsGameFinished(isGameFinished)
+      if (isGameFinished) {
+        pauseStopwatch()
+      }
       return predefinedFieldList
     }
     return false
@@ -89,7 +91,8 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
     getStepsToGenerate,
     getReport: getReport(),
     getFieldsFromSameGroups,
-    isGameFinished: getIsGameFinished
+    isGameFinished: getIsGameFinished,
+    getStopwatch
   }
 }
 

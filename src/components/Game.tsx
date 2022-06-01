@@ -27,7 +27,8 @@ function Game() {
     changeSelectedFieldValue,
     getFieldListFromKey,
     isGameFinished,
-    getFieldList
+    getFieldList,
+    getStopwatch
   } = useBoardManager(difficultyLevel)
 
   useEffect(() => {
@@ -42,6 +43,7 @@ function Game() {
     <StyledGame>
       <TopBar
         difficultyLevel={difficultyLevel}
+        getStopwatch={getStopwatch}
       />
       <Grid
         container
@@ -58,6 +60,7 @@ function Game() {
               setHighlightedField={setHighlightedField}
               isGameFinished={isGameFinished()}
               difficultyLevel={difficultyLevel}
+              getStopwatch={getStopwatch}
             />
           )}
         </Grid>

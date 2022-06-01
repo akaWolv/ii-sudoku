@@ -1,11 +1,40 @@
 import { DifficultyLevel, Field } from 'interfaces'
 import DifficultLevelList from 'constants/DifficultLevelList'
 import DefaultFieldList from 'constants/DefaultFieldList'
+import { useCookies } from 'react-cookie'
+import { useStopwatch } from 'react-timer-hook'
+import { useEffect } from 'react'
 
 const EMPTY = ','
-const INT2LETTERS = [EMPTY, 'a', 'b', 'c', 'd', 'e', 'f', 'g','h', 'i']
+const INT2LETTERS = [EMPTY, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
+const STOPWATCH_COOKIE = 'stopwatch'
 
 const useBoardHelper = () => {
+  const [cookies, setCookie, removeCookie] = useCookies([STOPWATCH_COOKIE])
+
+  const getStopwatchOffset = (): Date => {
+    const time = cookies[STOPWATCH_COOKIE] || '0:0'
+    const [minutes, seconds] = time.split(':')
+    const stopwatchOffset = new Date();
+    stopwatchOffset.setMinutes(stopwatchOffset.getMinutes() + Number(minutes))
+    stopwatchOffset.setSeconds(stopwatchOffset.getSeconds() + Number(seconds))
+    return stopwatchOffset
+  }
+
+  const getStopwatch = (): string => `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+
+  const { seconds, minutes, pause, reset } = useStopwatch({ autoStart: true, offsetTimestamp: getStopwatchOffset() })
+
+  const resetStopwatch = () => {
+    reset()
+    removeCookie(STOPWATCH_COOKIE)
+  }
+  const pauseStopwatch = () => pause()
+
+  useEffect(() => {
+    setCookie(STOPWATCH_COOKIE, `${minutes}:${seconds}`, { path: '/' })
+  }, [seconds])
+
   const getFieldsFromSameGroups = (
     { square, vLine, hLine }: Field,
     fieldList: Field[]
@@ -37,7 +66,7 @@ const useBoardHelper = () => {
     }).join('')
   }
 
-  const getBoardFromCode = (gameCode: string): Field[]|false => {
+  const getBoardFromCode = (gameCode: string): Field[] | false => {
     if (!(new RegExp(`^(${EMPTY}|[a-i]|[1-9]){81}$`)).test(gameCode)) {
       console.error('invalid key')
       return false
@@ -67,10 +96,10 @@ const useBoardHelper = () => {
       return fieldList
     }
 
-    const fieldsIdList = fieldsToRewrite.map(({id}) => id)
+    const fieldsIdList = fieldsToRewrite.map(({ id }) => id)
     fieldList.map((field) => {
       if (fieldsIdList.includes(field.id)) {
-        return {...field}
+        return { ...field }
       }
       return field
     })
@@ -81,16 +110,17 @@ const useBoardHelper = () => {
   const validateFields = (fieldList: Field[]): Field[] => {
     // clear previous validation
     const validatedFieldList = fieldList.map((field): Field => {
-      field.isValid = true
-      return {...field}}
+        field.isValid = true
+        return { ...field }
+      }
     )
 
     validatedFieldList.map((field) => {
       // pick fields from groups
       const fieldsToCheck = getFieldsFromSameGroups(field, validatedFieldList)
       field.isValid = !fieldsToCheck
-        .filter(({id, value}) => field.id != id && Boolean(value))
-        .map(({value}) => value)
+        .filter(({ id, value }) => field.id != id && Boolean(value))
+        .map(({ value }) => value)
         .includes(field.value)
 
       return field
@@ -105,7 +135,11 @@ const useBoardHelper = () => {
     getBoardCode,
     getBoardFromCode,
     validateFields,
-    rewriteFields
+    rewriteFields,
+    getStopwatchOffset,
+    getStopwatch,
+    pauseStopwatch,
+    resetStopwatch
   }
 }
 

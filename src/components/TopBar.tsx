@@ -1,6 +1,6 @@
-import { Grid, Paper, Typography } from '@mui/material'
+import { Chip, colors, Grid, Paper, Typography } from '@mui/material'
 import logo from 'indieimp.svg'
-import React from 'react'
+import React, { useEffect } from 'react'
 import MenuModal from 'components/MenuModal'
 import styled from 'styled-components'
 import { DifficultyLevel } from 'interfaces'
@@ -16,10 +16,15 @@ const StyledTopBar = styled(Grid)`
   margin-bottom: 1em;
 `
 
+const StyledLogo = styled.img`
+  height: 70px;
+  pointer-events: none;
+`
 type Props = {
   difficultyLevel: DifficultyLevel
+  getStopwatch: Function
 }
-const TopBar: React.FC<Props> = ({ difficultyLevel }) => {
+const TopBar: React.FC<Props> = ({ difficultyLevel , getStopwatch}) => {
   return (
     <StyledTopBar
       container
@@ -38,15 +43,17 @@ const TopBar: React.FC<Props> = ({ difficultyLevel }) => {
         md={8}
         lg={6}
       >
-        <Grid item xs={4}>
+        <Grid item xs={4} sx={{position: 'relative'}}>
           <StyledPaper elevation={3}>
             <Typography variant="h5">SUDOKU</Typography>
             <Typography variant="caption">{difficultyLevel.text}</Typography>
           </StyledPaper>
-          {/*<span>steps: {getStepsToGenerate()}</span>*/}
         </Grid>
-        <Grid item xs={4}>
-          <img src={logo} className="App-logo" alt="logo" />
+        <Grid item xs={4} sx={{display: 'flex', flexDirection: 'column'}}>
+          <StyledLogo src={logo} className="App-logo" alt="logo" />
+          <div>
+            <Chip label={getStopwatch()}  />
+          </div>
         </Grid>
         <Grid item  xs={4}>
           <StyledPaper elevation={3}>

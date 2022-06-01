@@ -1,5 +1,5 @@
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
-import { alpha, Button, colors, Typography } from '@mui/material'
+import { alpha, Button, Chip, colors, Typography } from '@mui/material'
 import React from 'react'
 import styled from 'styled-components'
 import { DifficultyLevel } from 'interfaces'
@@ -22,10 +22,17 @@ const StyledWinnerBlend = styled.div`
   -ms-transition: opacity 2s ease-in;
   transition: opacity 2s ease-in;
 `
-const WinnerBlend = ({ difficultyLevel }: { difficultyLevel: DifficultyLevel }) => (
+
+interface WinnerBlend {
+  difficultyLevel: DifficultyLevel
+  getStopwatch: Function
+}
+
+const WinnerBlend = ({ difficultyLevel, getStopwatch }: WinnerBlend) => (
   <StyledWinnerBlend>
+    <Chip label={getStopwatch()} sx={{ fontSize: '2em' }} />
     <RocketLaunchIcon sx={{ fontSize: 220 }} color="primary" />
-    <Typography variant='h2' gutterBottom={true}>Solved!</Typography>
+    <Chip label={'Solved!'} sx={{ fontSize: '2em', marginBottom: '0.8em' }} />
     <Button
       variant='contained'
       onClick={() => {

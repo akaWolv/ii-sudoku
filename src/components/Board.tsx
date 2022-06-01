@@ -12,12 +12,23 @@ const StyledBoard = styled(Grid)`
 
 interface Board {
   fieldList: Field[]
-  highlightedField: Field | undefined,
-  setHighlightedField: Function,
-  isGameFinished: boolean,
+  highlightedField: Field | undefined
+  setHighlightedField: Function
+  isGameFinished: boolean
   difficultyLevel: DifficultyLevel
+  getStopwatch: Function
 }
-function Board({ fieldList, highlightedField, setHighlightedField, difficultyLevel, isGameFinished }: Board) {
+
+function Board(
+  {
+    fieldList,
+    highlightedField,
+    setHighlightedField,
+    difficultyLevel,
+    isGameFinished,
+    getStopwatch
+  }: Board
+) {
   return (
     <StyledBoard container spacing={0} columns={9}>
       {
@@ -34,7 +45,7 @@ function Board({ fieldList, highlightedField, setHighlightedField, difficultyLev
           }
         )
       }
-      { isGameFinished && <WinnerBlend difficultyLevel={difficultyLevel} /> }
+      {isGameFinished && <WinnerBlend difficultyLevel={difficultyLevel} getStopwatch={getStopwatch} />}
     </StyledBoard>
   )
 }

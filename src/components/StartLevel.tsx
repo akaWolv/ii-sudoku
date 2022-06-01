@@ -5,12 +5,13 @@ import useBoardHelper from '_hooks/useBoardHelper'
 
 const StartLevel: React.FC<any> = (props) => {
   const { difficultyLevelKey } = useParams()
-  const { getDifficultyLevelByKey, getBoardCode } = useBoardHelper()
+  const { getDifficultyLevelByKey, getBoardCode, resetStopwatch } = useBoardHelper()
   const difficultyLevel = getDifficultyLevelByKey(String(difficultyLevelKey))
   const { generateBoard, getReport } = useBoardGenerator(difficultyLevel)
 
   useEffect(() => {
     const generatedBoardCode = getBoardCode(generateBoard())
+    resetStopwatch()
     console.log(getReport)
     window.location.href = `/${difficultyLevel.key}/${generatedBoardCode}`
   }, [])
