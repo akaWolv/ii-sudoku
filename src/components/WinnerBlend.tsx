@@ -1,4 +1,4 @@
-import MilitaryTechTwoToneIcon from '@mui/icons-material/MilitaryTechTwoTone'
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { alpha, Button, colors, Typography } from '@mui/material'
 import React from 'react'
 import styled from 'styled-components'
@@ -15,15 +15,21 @@ const StyledWinnerBlend = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  
+  -webkit-transition: opacity 2s ease-in;
+  -moz-transition: opacity 2s ease-in;
+  -o-transition: opacity 2s ease-in;
+  -ms-transition: opacity 2s ease-in;
+  transition: opacity 2s ease-in;
 `
 const WinnerBlend = ({ difficultyLevel }: { difficultyLevel: DifficultyLevel }) => (
   <StyledWinnerBlend>
-    <MilitaryTechTwoToneIcon sx={{ fontSize: 200 }} color="primary" />
-    <Typography variant='h1' gutterBottom={true}>Solved!</Typography>
+    <RocketLaunchIcon sx={{ fontSize: 220 }} color="primary" />
+    <Typography variant='h2' gutterBottom={true}>Solved!</Typography>
     <Button
       variant='contained'
       onClick={() => {
-        window.location.href = `/${difficultyLevel.text}/`
+        window.location.href = `/${difficultyLevel.key}/`
       }}
     >
       New&nbsp;<b>{difficultyLevel.text}</b>&nbsp;Game

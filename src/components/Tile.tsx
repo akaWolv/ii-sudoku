@@ -4,6 +4,7 @@ import TileVariant from 'constants/TileVariant'
 import Group from 'constants/Group'
 import { Field } from 'interfaces'
 import styled from 'styled-components'
+import Colors from 'constants/Colors'
 
 const VariantASquares = [
   Group.SQUARE_2_1,
@@ -37,7 +38,7 @@ const StyledTile = styled(Grid)<{
     return colors.red[900]
   }
   if ($isHighlightedSameNumber) {
-    return alpha(colors.orange[900], 0.3)
+    return alpha(Colors.IMP_PINK, 0.1)
   }
   if ($isHighlighted) {
     return colors.grey[900]

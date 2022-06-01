@@ -1,14 +1,15 @@
-import { alpha, colors, Grid, Paper, Typography } from '@mui/material'
+import { Grid, Paper, Typography } from '@mui/material'
 import logo from 'indieimp.svg'
 import React from 'react'
 import MenuModal from 'components/MenuModal'
 import styled from 'styled-components'
 import { DifficultyLevel } from 'interfaces'
+import Colors from 'constants/Colors'
 
 const StyledPaper = styled(Paper)`
-  background-color: ${alpha(colors.amber[900], 0.1)} !important;
+  background-color: ${Colors.IMP_LIGHT_GREY} !important;
   padding: 1em;
-  color: ${colors.amber[600]} !important;
+  color: ${Colors.IMP_PINK} !important;
 `
 
 const StyledTopBar = styled(Grid)`
@@ -16,10 +17,9 @@ const StyledTopBar = styled(Grid)`
 `
 
 type Props = {
-  getStepsToGenerate: Function
   difficultyLevel: DifficultyLevel
 }
-const TopBar: React.FC<Props> = ({ getStepsToGenerate, difficultyLevel }) => {
+const TopBar: React.FC<Props> = ({ difficultyLevel }) => {
   return (
     <StyledTopBar
       container
@@ -40,7 +40,7 @@ const TopBar: React.FC<Props> = ({ getStepsToGenerate, difficultyLevel }) => {
       >
         <Grid item xs={4}>
           <StyledPaper elevation={3}>
-            <Typography variant="h5">Sudoku</Typography>
+            <Typography variant="h5">SUDOKU</Typography>
             <Typography variant="caption">{difficultyLevel.text}</Typography>
           </StyledPaper>
           {/*<span>steps: {getStepsToGenerate()}</span>*/}

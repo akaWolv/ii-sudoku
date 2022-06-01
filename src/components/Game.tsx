@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import '../App.css'
 import { Grid } from '@mui/material'
 import useBoardManager from '_hooks/useBoardManager'
@@ -9,14 +9,12 @@ import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
 
 import useBoardHelper from '_hooks/useBoardHelper'
-import { Field } from 'interfaces'
 
 const StyledGame = styled.div`
   padding: 1em;
 `
 
 function Game() {
-  const [fieldList, setFieldList] = useState<Field[]|undefined>(undefined);
   const { difficultyLevelKey, gameKey } = useParams()
 
   const { getDifficultyLevelByKey } = useBoardHelper()
@@ -28,23 +26,21 @@ function Game() {
     setHighlightedField,
     changeSelectedFieldValue,
     getFieldListFromKey,
-    getStepsToGenerate,
-    isGameFinished
+    isGameFinished,
+    getFieldList
   } = useBoardManager(difficultyLevel)
 
   useEffect(() => {
-    setFieldList(getFieldListFromKey(gameKey) || undefined)
-
+    getFieldListFromKey(gameKey)
   }, [gameKey])
 
-  if (!fieldList) {
+  if (!getFieldList()) {
     return <>game code is corrupted</>
   }
 
   return (
     <StyledGame>
       <TopBar
-        getStepsToGenerate={getStepsToGenerate}
         difficultyLevel={difficultyLevel}
       />
       <Grid
@@ -57,7 +53,7 @@ function Game() {
         <Grid item xs={12} sm={6} md={5} lg={4}>
           {(!getIsGenerated()) ? 'Loading' : (
             <Board
-              fieldList={fieldList}
+              fieldList={getFieldList()}
               highlightedField={getHighlightedField()}
               setHighlightedField={setHighlightedField}
               isGameFinished={isGameFinished()}

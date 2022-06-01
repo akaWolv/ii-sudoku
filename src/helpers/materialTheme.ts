@@ -1,5 +1,6 @@
 import { createTheme } from '@mui/material/styles'
 import { colors } from '@mui/material'
+import Colors from 'constants/Colors'
 
 const theme = createTheme({
   typography: {
@@ -31,8 +32,8 @@ const theme = createTheme({
       fontWeight: 400
     },
     h5: {
-      fontSize: '1.1rem',
-      fontWeight: 500
+      fontSize: '1.2rem',
+      fontWeight: 600
     },
     h6: {
       fontSize: '0.875rem',
@@ -40,7 +41,7 @@ const theme = createTheme({
       lineHeight: 1.5
     },
     caption: {
-      fontSize: '14px',
+      fontSize: '1em',
       fontWeight: 400,
       lineHeight: 1.3
     }
@@ -57,9 +58,9 @@ const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      light: colors.amber[600],
-      main: colors.amber[600],
-      dark: colors.amber[600]
+      light: Colors.IMP_PINK,
+      main: Colors.IMP_PINK,
+      dark: Colors.IMP_PINK
     },
     secondary: {
       light: colors.pink[400],
@@ -85,7 +86,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           outlined: {
-            boxShadow: 'none'
+            boxShadow: 'none',
           },
           text: {
             boxShadow: 'none'

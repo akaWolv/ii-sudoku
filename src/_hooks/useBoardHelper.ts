@@ -44,23 +44,68 @@ const useBoardHelper = () => {
     }
     const singleCodeList = gameCode.split('')
     const fieldList = [...DefaultFieldList]
+
     singleCodeList.forEach((singleCode, index) => {
       const translatedValue = INT2LETTERS.indexOf(singleCode)
       if (translatedValue === -1) {
+        fieldList[index].isStatic = false
         fieldList[index].value = Number(singleCode)
       } else if (translatedValue > 0) {
         fieldList[index].isStatic = true
         fieldList[index].generatedValue = fieldList[index].value = Number(translatedValue)
+      } else {
+        fieldList[index].isStatic = false
+        fieldList[index].value = null
       }
     })
+
+    return validateFields(fieldList)
+  }
+
+  const rewriteFields = (fieldList: Field[], fieldsToRewrite: Field[]) => {
+    if (!fieldsToRewrite) {
+      return fieldList
+    }
+
+    const fieldsIdList = fieldsToRewrite.map(({id}) => id)
+    fieldList.map((field) => {
+      if (fieldsIdList.includes(field.id)) {
+        return {...field}
+      }
+      return field
+    })
+
     return fieldList
+  }
+
+  const validateFields = (fieldList: Field[]): Field[] => {
+    // clear previous validation
+    const validatedFieldList = fieldList.map((field): Field => {
+      field.isValid = true
+      return {...field}}
+    )
+
+    validatedFieldList.map((field) => {
+      // pick fields from groups
+      const fieldsToCheck = getFieldsFromSameGroups(field, validatedFieldList)
+      field.isValid = !fieldsToCheck
+        .filter(({id, value}) => field.id != id && Boolean(value))
+        .map(({value}) => value)
+        .includes(field.value)
+
+      return field
+    })
+
+    return validatedFieldList
   }
 
   return {
     getFieldsFromSameGroups,
     getDifficultyLevelByKey,
     getBoardCode,
-    getBoardFromCode
+    getBoardFromCode,
+    validateFields,
+    rewriteFields
   }
 }
 
