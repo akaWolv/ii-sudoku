@@ -1,5 +1,6 @@
 import { createTheme } from '@mui/material/styles'
 import { colors } from '@mui/material'
+import Colors from 'constants/Colors'
 
 const theme = createTheme({
   typography: {
@@ -31,8 +32,8 @@ const theme = createTheme({
       fontWeight: 400
     },
     h5: {
-      fontSize: '1.1rem',
-      fontWeight: 500
+      fontSize: '1.2rem',
+      fontWeight: 600
     },
     h6: {
       fontSize: '0.875rem',
@@ -40,26 +41,26 @@ const theme = createTheme({
       lineHeight: 1.5
     },
     caption: {
-      fontSize: '11px',
+      fontSize: '1em',
       fontWeight: 400,
       lineHeight: 1.3
     }
   },
-  // breakpoints: {
-  //   values: {
-  //     xs: 600,
-  //     sm: 1300,
-  //     md: 1500,
-  //     lg: 1700,
-  //     xl: 2000
-  //   }
-  // },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 700,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
   palette: {
     mode: 'light',
     primary: {
-      light: colors.purple[600],
-      main: colors.purple[600],
-      dark: colors.purple[600]
+      light: Colors.IMP_PINK,
+      main: Colors.IMP_PINK,
+      dark: Colors.IMP_PINK
     },
     secondary: {
       light: colors.pink[400],
@@ -84,22 +85,11 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          // color: colors.grey[100],
-          // color: colors.purple[200],
           outlined: {
             boxShadow: 'none',
-            // backgroundColor: colors.yellow600,
-            '&:hover': {
-              // backgroundColor: colors.yellow400
-            }
           },
           text: {
-            boxShadow: 'none',
-            '&:hover': {
-              // backgroundColor: colors.yellow400
-            },
-            '&:active': {
-            },
+            boxShadow: 'none'
           }
         },
       }
