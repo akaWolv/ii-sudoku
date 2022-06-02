@@ -9,8 +9,19 @@ export default defineConfig(({ mode }) => {
       react(),
       tsconfigPaths()
     ],
+    build: {
+      outDir: 'build',
+      rollupOptions: {
+        output: {
+          manualChunks: undefined,
+          entryFileNames: 'assets/[name].js',
+          assetFileNames: 'assets/[name].[ext]'
+        }
+      }
+    },
     server: {
       port: Number(PORT),
+      host: 'localhost',
     },
   }
 })
