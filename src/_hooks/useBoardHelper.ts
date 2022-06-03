@@ -28,6 +28,7 @@ const useBoardHelper = () => {
   const resetStopwatch = () => {
     reset()
     removeCookie(STOPWATCH_COOKIE)
+    setCookie(STOPWATCH_COOKIE, `0:0`, { path: '/' })
   }
   const pauseStopwatch = () => pause()
 

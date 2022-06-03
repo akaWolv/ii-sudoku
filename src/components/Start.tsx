@@ -1,6 +1,18 @@
 import React, { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import useBoardHelper from '_hooks/useBoardHelper'
+import { Typography } from '@mui/material'
+import styled from 'styled-components'
+import HourglassEmptyTwoToneIcon from '@mui/icons-material/HourglassEmptyTwoTone';
+
+const StyledStart = styled.div`
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
 
 const Start: React.FC<any> = (props) => {
   const { difficultyLevelKey } = useParams()
@@ -11,7 +23,10 @@ const Start: React.FC<any> = (props) => {
       window.location.href = `/${difficultyLevel.key}`
   }, [])
 
-  return <span>game is loading...</span>
+  return <StyledStart>
+    <HourglassEmptyTwoToneIcon sx={{ fontSize: 120 }} />
+    <Typography variant='h4'>game is loading...</Typography>
+  </StyledStart>
 }
 
 export default Start
