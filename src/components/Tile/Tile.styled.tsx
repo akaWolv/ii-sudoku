@@ -1,17 +1,8 @@
 import { alpha, Button, Grid } from '@mui/material'
 import { colors } from '@mui/material'
 import TileVariant from 'constants/TileVariant'
-import Group from 'constants/Group'
-import { Field } from 'interfaces'
 import styled from 'styled-components'
 import Colors from 'constants/Colors'
-
-const VariantASquares = [
-  Group.SQUARE_2_1,
-  Group.SQUARE_1_2,
-  Group.SQUARE_3_2,
-  Group.SQUARE_2_3
-]
 
 const StyledButton = styled(Button)`
   && {
@@ -56,56 +47,16 @@ const StyledTile = styled(Grid)<{
   justify-content: center;
 `;
 
-type StyledSpanProps = {
+type StyledSpan = {
   isStatic: boolean
 }
-const StyledSpan = styled.span<StyledSpanProps>`
+const StyledSpan = styled.span<StyledSpan>`
   color: ${({isStatic}) => isStatic ? colors.grey[100] : colors.amber[700]};
   font-size: 1.4rem;
 `
 
-type Props = {
-  field: Field,
-  handlePick: Function,
-  highlightedField?: Field
+export {
+  StyledButton,
+  StyledTile,
+  StyledSpan
 }
-const Tile: React.FC<Props> = (
-  {
-    field,
-    highlightedField,
-    handlePick
-  }) => {
-  const { id, square, hLine, vLine, generatedValue, value, isStatic, isValid } = field
-  const {
-    id :highlightedId,
-    hLine: highlightedHLine,
-    vLine: highlightedVLine,
-    value: highlightedValue
-  } = highlightedField || {}
-
-  const pickTileVariant = (square: Group): TileVariant =>
-    VariantASquares.includes(square) ? TileVariant.A : TileVariant.B
-
-  return (
-    <StyledTile
-      item
-      xs={1}
-      $isHighlighted={highlightedId === id}
-      $isHighlightedVertically={highlightedVLine === vLine}
-      $isHighlightedHorizontally={highlightedHLine === hLine}
-      $isHighlightedSameNumber={Boolean(highlightedValue) && highlightedValue === value}
-      $isValid={isValid}
-      $variant={pickTileVariant(square)}
-    >
-      <StyledButton
-        variant='outlined'
-        onClick={() => handlePick(field)}
-      >
-        <StyledSpan isStatic={isStatic}>
-          {String((isStatic ? generatedValue : value) || ' ')}
-        </StyledSpan>
-      </StyledButton>
-    </StyledTile>
-  )
-}
-export default Tile

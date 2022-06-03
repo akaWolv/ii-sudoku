@@ -1,21 +1,12 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import styled from 'styled-components'
 import { Typography } from '@mui/material'
 import useBoardGenerator from '_hooks/useBoardGenerator'
 import useBoardHelper from '_hooks/useBoardHelper'
 import HourglassTopTwoToneIcon from '@mui/icons-material/HourglassTopTwoTone';
+import { StyledStartLevel } from 'components/StartLevel/StartLevel.styled'
 
-const StyledStartLevel = styled.div`
-  width: 100vw;
-  height: 80vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
-
-const StartLevel: React.FC<any> = (props) => {
+const StartLevel: React.FC<any> = () => {
   const { difficultyLevelKey } = useParams()
   const { getDifficultyLevelByKey, getBoardCode, resetStopwatch } = useBoardHelper()
   const difficultyLevel = getDifficultyLevelByKey(String(difficultyLevelKey))

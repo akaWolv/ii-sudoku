@@ -1,14 +1,9 @@
-import '../App.css'
-import { Grid } from '@mui/material'
-import Tile from './Tile'
+import 'App.css'
+import Tile from 'components/Tile'
 import { DifficultyLevel, Field } from 'interfaces'
-import styled from 'styled-components'
 import React from 'react'
 import WinnerBlend from 'components/WinnerBlend'
-
-const StyledBoard = styled(Grid)`
-  position: relative;
-`
+import { StyledBoard } from './Board.styled'
 
 interface Board {
   fieldList: Field[]

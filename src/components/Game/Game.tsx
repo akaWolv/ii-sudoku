@@ -1,18 +1,14 @@
 import React, { useEffect } from 'react'
-import '../App.css'
+import '../../App.css'
 import { Grid } from '@mui/material'
 import useBoardManager from '_hooks/useBoardManager'
 import Controls from 'components/Controls'
 import Board from 'components/Board'
 import TopBar from 'components/TopBar'
-import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
 
 import useBoardHelper from '_hooks/useBoardHelper'
-
-const StyledGame = styled.div`
-  padding: 1em;
-`
+import { StyledGame } from 'components/Game/Game.styled'
 
 function Game() {
   const { difficultyLevelKey, gameKey } = useParams()
