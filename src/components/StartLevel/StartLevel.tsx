@@ -15,7 +15,9 @@ const StartLevel: React.FC<any> = () => {
   useEffect(() => {
     resetStopwatch()
     const generatedBoardCode = getBoardCode(generateBoard())
-    window.location.href = `/${difficultyLevel.key}/${generatedBoardCode}`
+    setTimeout(() => {
+      window.location.href = `/${difficultyLevel.key}/${generatedBoardCode}`
+    }, 0)
   }, [])
 
   return <StyledStartLevel>

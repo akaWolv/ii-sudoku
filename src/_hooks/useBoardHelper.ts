@@ -26,9 +26,9 @@ const useBoardHelper = () => {
   const { seconds, minutes, pause, reset } = useStopwatch({ autoStart: true, offsetTimestamp: getStopwatchOffset() })
 
   const resetStopwatch = () => {
-    reset()
     removeCookie(STOPWATCH_COOKIE)
     setCookie(STOPWATCH_COOKIE, `0:0`, { path: '/' })
+    reset()
   }
   const pauseStopwatch = () => pause()
 
