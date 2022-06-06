@@ -35,7 +35,9 @@ const TopBar: React.FC<Props> = ({ difficultyLevel , getStopwatch}) => {
           </StyledPaper>
         </Grid>
         <Grid item xs={4} sx={{display: 'flex', flexDirection: 'column'}}>
-          <StyledLogo src={logo} className="App-logo" alt="logo" />
+          <a href="http://indieimp.com">
+            <StyledLogo src={logo} className="App-logo" alt="logo" />
+          </a>
           <div>
             <Chip label={getStopwatch()}  />
           </div>
