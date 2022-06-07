@@ -29,7 +29,7 @@ const StyledTile = styled(Grid)<{
     return colors.red[900]
   }
   if ($isHighlightedSameNumber) {
-    return alpha(Colors.IMP_PINK, 0.1)
+    return alpha(Colors.IMP_ORANGE, 0.1)
   }
   if ($isHighlighted) {
     return colors.grey[900]

@@ -58,9 +58,9 @@ const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      light: Colors.IMP_PINK,
-      main: Colors.IMP_PINK,
-      dark: Colors.IMP_PINK
+      light: Colors.IMP_ORANGE,
+      main: Colors.IMP_ORANGE,
+      dark: Colors.IMP_ORANGE
     },
     secondary: {
       light: colors.pink[400],

@@ -2,7 +2,8 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import useBoardHelper from '_hooks/useBoardHelper'
 import { Typography } from '@mui/material'
-import HourglassEmptyTwoToneIcon from '@mui/icons-material/HourglassEmptyTwoTone';
+import HourglassTopTwoToneIcon from '@mui/icons-material/HourglassTopTwoTone';
+
 import { StyledStart } from 'components/Start/Start.styled'
 
 const Start: React.FC<any> = () => {
@@ -15,7 +16,7 @@ const Start: React.FC<any> = () => {
   }, [])
 
   return <StyledStart>
-    <HourglassEmptyTwoToneIcon sx={{ fontSize: 120 }} />
+    <HourglassTopTwoToneIcon sx={{ fontSize: 120 }} />
     <Typography variant='h4'>game is loading...</Typography>
   </StyledStart>
 }

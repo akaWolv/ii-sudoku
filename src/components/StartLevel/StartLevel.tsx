@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import useBoardGenerator from '_hooks/useBoardGenerator'
 import useBoardHelper from '_hooks/useBoardHelper'
-import HourglassTopTwoToneIcon from '@mui/icons-material/HourglassTopTwoTone';
+import HourglassBottomTwoToneIcon from '@mui/icons-material/HourglassBottomTwoTone';
 import { StyledStartLevel } from 'components/StartLevel/StartLevel.styled'
 
 const StartLevel: React.FC<any> = () => {
@@ -21,7 +21,7 @@ const StartLevel: React.FC<any> = () => {
   }, [])
 
   return <StyledStartLevel>
-    <HourglassTopTwoToneIcon sx={{ fontSize: 120 }} />
+    <HourglassBottomTwoToneIcon sx={{ fontSize: 120 }} />
     <Typography variant='h4'><u>{difficultyLevelKey}</u> game is loading...</Typography>
   </StyledStartLevel>
 }

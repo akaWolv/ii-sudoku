@@ -3,12 +3,13 @@ import { Backdrop, Box, Button, Chip, colors, Fade, Modal, Typography } from '@m
 import MenuIcon from '@mui/icons-material/Menu';
 import DifficultyLevelList from 'constants/DifficultLevelList'
 import Colors from 'constants/Colors'
-import EscalatorWarningTwoToneIcon from '@mui/icons-material/EscalatorWarningTwoTone'
-import HikingTwoToneIcon from '@mui/icons-material/HikingTwoTone'
 import EmojiPeopleTwoToneIcon from '@mui/icons-material/EmojiPeopleTwoTone'
 import RocketLaunchTwoToneIcon from '@mui/icons-material/RocketLaunchTwoTone'
 import SkateboardingTwoToneIcon from '@mui/icons-material/SkateboardingTwoTone'
 import SportsMartialArtsTwoToneIcon from '@mui/icons-material/SportsMartialArtsTwoTone'
+
+import BoyIcon from '@mui/icons-material/Boy';
+import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 
 const modalStyle = {
   position: 'absolute' as 'absolute',
@@ -17,7 +18,7 @@ const modalStyle = {
   transform: 'translate(-50%, -50%)',
   width: '100%',
   maxWidth: 300,
-  color: Colors.IMP_PINK,
+  color: Colors.IMP_ORANGE,
   bgcolor: colors.grey[900],
   border: '2px solid #000',
   boxShadow: 24,
@@ -33,11 +34,11 @@ const MenuModal = () => {
     const iconSx = { position: 'absolute', left: 10, color: colors.grey[400] }
     switch (key) {
       case 'easy':
-        return <EscalatorWarningTwoToneIcon sx={iconSx} />
+        return <BoyIcon sx={iconSx} />
       case 'medium':
         return <EmojiPeopleTwoToneIcon sx={iconSx} />
       case 'hard':
-        return <HikingTwoToneIcon sx={iconSx} />
+        return <AccessibilityNewIcon sx={iconSx} />
       case 'expert':
         return <SkateboardingTwoToneIcon sx={iconSx} />
       case 'master':

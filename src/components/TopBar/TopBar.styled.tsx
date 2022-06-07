@@ -5,7 +5,7 @@ import Colors from 'constants/Colors'
 const StyledPaper = styled(Paper)`
   background-color: ${Colors.IMP_LIGHT_GREY} !important;
   padding: 1em;
-  color: ${Colors.IMP_PINK} !important;
+  color: ${Colors.IMP_ORANGE} !important;
 `
 
 const StyledTopBar = styled(Grid)`
