@@ -6,7 +6,7 @@ import useBoardHelper from '_hooks/useBoardHelper'
 
 const useBoardManager = (difficultyLevel: DifficultyLevel) => {
   const navigate = useNavigate()
-  const { getBoardCode, getBoardFromCode, getStopwatch, pauseStopwatch } = useBoardHelper()
+  const { getBoardCode, getBoardFromCode, getStopwatch, getInvalidValuesForField, pauseStopwatch } = useBoardHelper()
   const { getReport } = useBoardGenerator(difficultyLevel)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
   const [fieldList, setFieldList] = useState<Field[]>([])
@@ -80,10 +80,13 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
   const getIsGameFinished = (): boolean => isGameFinished
   const getHighlightedField = (): Field | undefined => highlightedField
   const getIsGenerated = (): boolean => isLoaded
+  const getForbiddenValuesForField = (field: Field): number[] => getInvalidValuesForField(field, fieldList)
+  const isHintingEnabled = Boolean(difficultyLevel.isHintingEnabled)
 
   return {
     getIsGenerated,
     getHighlightedField,
+    getForbiddenValuesForField,
     setHighlightedField,
     changeSelectedFieldValue,
     getFieldList,
@@ -92,7 +95,8 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
     getReport: getReport(),
     getFieldsFromSameGroups,
     isGameFinished: getIsGameFinished,
-    getStopwatch
+    getStopwatch,
+    isHintingEnabled
   }
 }
 

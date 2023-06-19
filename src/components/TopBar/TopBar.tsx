@@ -24,9 +24,9 @@ const TopBar: React.FC<Props> = ({ difficultyLevel , getStopwatch}) => {
         alignItems="center"
         item
         xs={12}
-        sm={12}
-        md={8}
-        lg={6}
+        sm={11}
+        md={11}
+        lg={11}
       >
         <Grid item xs={4} sx={{position: 'relative'}}>
           <StyledPaper elevation={3}>

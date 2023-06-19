@@ -2,7 +2,8 @@ import { Field } from 'interfaces'
 import Group from 'constants/Group'
 
 const DefaultFieldList: Field[] = [
-  { order: 1, id: '1-9', x: 1, y: 9, square: Group.SQUARE_1_3, hLine: Group.H_LINE_9, vLine: Group.V_LINE_1, generatedValue: null, value: null, isStatic: false, isValid: true  }, { order: 2, id: '2-9', x: 2, y: 9, square: Group.SQUARE_1_3, hLine: Group.H_LINE_9, vLine: Group.V_LINE_2, generatedValue: null, value: null, isStatic: false, isValid: true  },
+  { order: 1, id: '1-9', x: 1, y: 9, square: Group.SQUARE_1_3, hLine: Group.H_LINE_9, vLine: Group.V_LINE_1, generatedValue: null, value: null, isStatic: false, isValid: true  },
+  { order: 2, id: '2-9', x: 2, y: 9, square: Group.SQUARE_1_3, hLine: Group.H_LINE_9, vLine: Group.V_LINE_2, generatedValue: null, value: null, isStatic: false, isValid: true  },
   { order: 3, id: '3-9', x: 3, y: 9, square: Group.SQUARE_1_3, hLine: Group.H_LINE_9, vLine: Group.V_LINE_3, generatedValue: null, value: null, isStatic: false, isValid: true  },
   { order: 4, id: '4-9', x: 4, y: 9, square: Group.SQUARE_2_3, hLine: Group.H_LINE_9, vLine: Group.V_LINE_4, generatedValue: null, value: null, isStatic: false, isValid: true  },
   { order: 5, id: '5-9', x: 5, y: 9, square: Group.SQUARE_2_3, hLine: Group.H_LINE_9, vLine: Group.V_LINE_5, generatedValue: null, value: null, isStatic: false, isValid: true  },

@@ -1,6 +1,6 @@
 import { Button, Grid } from '@mui/material'
-import styled from '@emotion/styled'
-import { colors } from '@mui/material/'
+import styled from 'styled-components'
+import Colors from 'constants/Colors'
 
 type ControlsContainer = {
   $isHighlightedField: boolean
@@ -8,8 +8,8 @@ type ControlsContainer = {
 const ControlsContainer = styled.div<ControlsContainer>`
   margin-top: 1em;
   position: relative;
-  filter: ${({$isHighlightedField}) => $isHighlightedField ? 'none': 'blur(1px) grayscale(100%) opacity(40%)'};
-`;
+  filter: ${({ $isHighlightedField }) => $isHighlightedField ? 'none': 'blur(1px) grayscale(100%) opacity(40%)'};
+`
 const Bland = styled.div`
   position: absolute;
   top: 0;
@@ -20,21 +20,28 @@ const Bland = styled.div`
 
 const ButtonContainer = styled(Grid)`
   margin-bottom: 0.5em;
-`;
-const ControlButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+`
+const StyledControlButton = styled(Button)<{
+  $isDisabled: boolean
+}>`
+  aspect-ratio: 1 / 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: 1.9em;
-`;
+  background-color: ${Colors.IMP_LIGHT_GREY} !important;
+  opacity: ${({ $isDisabled }) => $isDisabled ? '0.3' : '1'};
+`
 const StyledSpan = styled.span`
-  color: ${colors.purple[100]}
+  color: ${Colors.IMP_ORANGE};
+  font-size: 1.9em;
 `
 
 export {
   ControlsContainer,
   Bland,
   ButtonContainer,
-  ControlButton,
+  StyledControlButton,
   StyledSpan
 }

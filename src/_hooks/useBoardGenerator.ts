@@ -29,14 +29,7 @@ const useBoardGenerator = (difficultyLevel: DifficultyLevel) => {
     const excludedNumbers: (number | null)[] = getFieldsFromSameGroups(field, fieldList)
       .map(({ generatedValue }) => generatedValue)
     const baseNumbers = Array.from(Array(10).keys()).slice(1)
-    const availableNumbers = baseNumbers.filter(x => !excludedNumbers.includes(x))
-    console.log({
-      id: field.id,
-      excludedNumbers: JSON.stringify(excludedNumbers),
-      availableNumbers: JSON.stringify(availableNumbers),
-      availableCount: availableNumbers.length
-    })
-    return availableNumbers;
+    return baseNumbers.filter(x => !excludedNumbers.includes(x));
   }
 
   const generateField = (
@@ -44,10 +37,9 @@ const useBoardGenerator = (difficultyLevel: DifficultyLevel) => {
     fieldList: Field[]
   ): Field => {
     const availableNumbers = calculateAvailableNumbers(field, fieldList)
-    const pickedNumber = availableNumbers[Math.floor(Math.random() * availableNumbers.length)]
 
-    // fill number
-    field.generatedValue = pickedNumber
+    // pick and fill number
+    field.generatedValue =  availableNumbers[Math.floor(Math.random() * availableNumbers.length)]
 
     return field
   }
@@ -98,7 +90,6 @@ const useBoardGenerator = (difficultyLevel: DifficultyLevel) => {
     return generatedSquareFieldList
   }
 
-  const DEFAULT_LEVEL = 2
   const pickStaticFields = (fieldList: Field[]): Field[] => {
     // 38 fields for easy
     // 32 fields for medium

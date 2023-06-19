@@ -35,6 +35,7 @@ function Board(
                 field={field}
                 highlightedField={highlightedField}
                 handlePick={setHighlightedField}
+                difficultyLevel={difficultyLevel}
               />
             )
           }

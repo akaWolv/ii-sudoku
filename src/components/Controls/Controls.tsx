@@ -4,13 +4,12 @@ import { Field } from 'interfaces'
 import {
   Bland,
   ButtonContainer,
-  ControlButton,
+  StyledControlButton,
   ControlsContainer,
   StyledSpan
 } from 'components/Controls/Controls.styled'
 
 const ControlsItems = [
-  { value: 0, text: <BackspaceRoundedIcon /> },
   { value: 1, text: '1' },
   { value: 2, text: '2' },
   { value: 3, text: '3' },
@@ -20,39 +19,65 @@ const ControlsItems = [
   { value: 7, text: '7' },
   { value: 8, text: '8' },
   { value: 9, text: '9' },
+  { value: 0, text: <BackspaceRoundedIcon /> },
 ]
 
-interface Controls {
-  changeSelectedFieldValue: Function
+type Props = {
+  changeSelectedFieldValue: Function,
+  forbiddenValuesForField: number[],
+  isHintingEnabled: boolean,
   highlightedField?: Field
 }
 
-function Controls({ changeSelectedFieldValue, highlightedField }: Controls) {
+const Controls: React.FC<Props> = (
+  {
+    changeSelectedFieldValue,
+    isHintingEnabled,
+    forbiddenValuesForField,
+    highlightedField
+  }) => {
   const isHighlightedField = () => Boolean(highlightedField && !highlightedField.isStatic)
 
   return (
     <ControlsContainer $isHighlightedField={isHighlightedField()}>
-      <Grid
-        container
-        spacing={1}
-        columns={10}
-        direction="row"
-        justifyContent="center"
-        alignItems="flex-start"
-      >
-        {
-          ControlsItems.map(({ text, value }) => (
-            <ButtonContainer key={String(value)} item xs={2} sm={1} md={4}>
-              <ControlButton variant="outlined" onClick={() => {changeSelectedFieldValue(value)}}>
-                <StyledSpan>
-                  {text}
-                </StyledSpan>
-              </ControlButton>
-            </ButtonContainer>
-          ))
-        }
-      </Grid>
-      {!isHighlightedField() && <Bland />}
+      <div>
+        <Grid
+          container
+          spacing={2}
+          columns={10}
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          {
+            ControlsItems.map(({ text, value }) => {
+              let isDisabled = false
+              if (isHintingEnabled) {
+                isDisabled = (highlightedField && highlightedField.value === null && value === 0)
+                  || forbiddenValuesForField.includes(value)
+              }
+
+              return (
+                <ButtonContainer key={String(value)} item xs={2} sm={4} md={3} lg={4} xl={3}>
+                  <StyledControlButton
+                    variant="outlined"
+                    onClick={() => {
+                      changeSelectedFieldValue(value)
+                    }}
+                    disabled={isDisabled}
+                    $isDisabled={isDisabled}
+                  >
+                    <StyledSpan>
+                      {text}
+                    </StyledSpan>
+                  </StyledControlButton>
+                </ButtonContainer>
+              )
+            })
+          }
+        </Grid>
+        {!isHighlightedField() && <Bland />}
+      </div>
     </ControlsContainer>
   )
 }

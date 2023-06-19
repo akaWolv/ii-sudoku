@@ -76,6 +76,10 @@ const useBoardHelper = () => {
     const fieldList = [...DefaultFieldList]
 
     singleCodeList.forEach((singleCode, index) => {
+      if (!fieldList[index]) {
+        return
+      }
+
       const translatedValue = INT2LETTERS.indexOf(singleCode)
       if (translatedValue === -1) {
         fieldList[index].isStatic = false
@@ -117,17 +121,19 @@ const useBoardHelper = () => {
     )
 
     validatedFieldList.map((field) => {
-      // pick fields from groups
-      const fieldsToCheck = getFieldsFromSameGroups(field, validatedFieldList)
-      field.isValid = !fieldsToCheck
-        .filter(({ id, value }) => field.id != id && Boolean(value))
-        .map(({ value }) => value)
-        .includes(field.value)
-
+      field.isValid = !getInvalidValuesForField(field, validatedFieldList).includes(field.value as number)
       return field
     })
 
     return validatedFieldList
+  }
+
+  const getInvalidValuesForField = (field: Field, fieldList: Field[]): number[] => {
+    // pick fields from groups
+    const fieldsToCheck = getFieldsFromSameGroups(field, fieldList)
+    return fieldsToCheck
+      .filter(({ id, value }) => field.id != id && Boolean(value))
+      .map(({ value }) => value as number)
   }
 
   return {
@@ -135,6 +141,7 @@ const useBoardHelper = () => {
     getDifficultyLevelByKey,
     getBoardCode,
     getBoardFromCode,
+    getInvalidValuesForField,
     validateFields,
     rewriteFields,
     getStopwatchOffset,
