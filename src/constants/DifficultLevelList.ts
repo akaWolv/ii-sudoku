@@ -45,7 +45,8 @@ const DifficultyLevelList: DifficultyLevel[] = [
     key: 'test',
     staticTiles: 80,
     tilesPerSquare: [8, 9, 9, 9, 9, 9, 9, 9, 9],
-    text: 'one shot'
+    text: 'one shot',
+    isHintingEnabled: true,
   },
 ]
 export default DifficultyLevelList

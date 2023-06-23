@@ -11,7 +11,6 @@ interface Board {
   setHighlightedField: Function
   isGameFinished: boolean
   difficultyLevel: DifficultyLevel
-  getStopwatch: Function
 }
 
 function Board(
@@ -20,8 +19,7 @@ function Board(
     highlightedField,
     setHighlightedField,
     difficultyLevel,
-    isGameFinished,
-    getStopwatch
+    isGameFinished
   }: Board
 ) {
   return (
@@ -41,7 +39,7 @@ function Board(
           }
         )
       }
-      {isGameFinished && <WinnerBlend difficultyLevel={difficultyLevel} getStopwatch={getStopwatch} />}
+      {isGameFinished && <WinnerBlend difficultyLevel={difficultyLevel} isGameFinished={isGameFinished} />}
     </StyledBoard>
   )
 }

@@ -1,15 +1,17 @@
-import React from 'react'
+import React  from 'react'
 import { Chip, Grid, Typography } from '@mui/material'
+import { useSelector } from 'react-redux'
 import logo from 'indieimp.svg'
 import MenuModal from 'components/MenuModal'
 import { DifficultyLevel } from 'interfaces'
 import { StyledLogo, StyledPaper, StyledTopBar } from 'components/TopBar/TopBar.styled'
+import type { RootState } from 'stores/stopwatch'
 
-type Props = {
+type TopBar = {
   difficultyLevel: DifficultyLevel
-  getStopwatch: Function
 }
-const TopBar: React.FC<Props> = ({ difficultyLevel , getStopwatch}) => {
+const TopBar: React.FC<TopBar> = ({ difficultyLevel}) => {
+  const time = useSelector((state: RootState) => state.stopwatch.time)
   return (
     <StyledTopBar
       container
@@ -39,7 +41,7 @@ const TopBar: React.FC<Props> = ({ difficultyLevel , getStopwatch}) => {
             <StyledLogo src={logo} className="App-logo" alt="logo" />
           </a>
           <div>
-            <Chip label={getStopwatch()}  />
+            <Chip label={time || <span style={{ opacity: 0.5 }}>00:00</span>}  />
           </div>
         </Grid>
         <Grid item  xs={4}>

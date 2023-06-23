@@ -1,21 +1,20 @@
 import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import '../../App.css'
 import { Grid } from '@mui/material'
 import useBoardManager from '_hooks/useBoardManager'
 import Controls from 'components/Controls'
 import Board from 'components/Board'
 import TopBar from 'components/TopBar'
-import { useParams } from 'react-router-dom'
-
-import useBoardHelper from '_hooks/useBoardHelper'
 import { StyledGame } from 'components/Game/Game.styled'
+import useBoardHelper from '_hooks/useBoardHelper'
 
-function Game() {
+function  Game() {
   const { difficultyLevelKey, gameKey } = useParams()
 
   const { getDifficultyLevelByKey } = useBoardHelper()
   const difficultyLevel = getDifficultyLevelByKey(String(difficultyLevelKey))
-console.log(difficultyLevel)
+
   const {
     getIsGenerated,
     getHighlightedField,
@@ -25,7 +24,6 @@ console.log(difficultyLevel)
     getFieldListFromKey,
     isGameFinished,
     getFieldList,
-    getStopwatch,
     isHintingEnabled
   } = useBoardManager(difficultyLevel)
 
@@ -52,7 +50,6 @@ console.log(difficultyLevel)
         <Grid item xs={12} sm={9} md={7} lg={6}>
           <TopBar
             difficultyLevel={difficultyLevel}
-            getStopwatch={getStopwatch}
           />
         </Grid>
         <Grid item xs={10} sm={3} md={3} lg={2} />
@@ -82,7 +79,6 @@ console.log(difficultyLevel)
                 setHighlightedField={setHighlightedField}
                 isGameFinished={isGameFinished()}
                 difficultyLevel={difficultyLevel}
-                getStopwatch={getStopwatch}
               />
             )}
           </div>
