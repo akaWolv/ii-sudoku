@@ -56,7 +56,7 @@ const theme = createTheme({
     },
   },
   palette: {
-    mode: 'light',
+    mode: 'dark',
     primary: {
       light: Colors.IMP_ORANGE,
       main: Colors.IMP_ORANGE,
@@ -71,7 +71,6 @@ const theme = createTheme({
       primary: colors.grey[100],
       secondary: colors.grey[600]
     }
-
   },
   spacing: 8,
   components: {
@@ -93,7 +92,16 @@ const theme = createTheme({
           }
         },
       }
-    }
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: Colors.IMP_ORANGE,
+          padding: '10px',
+          marginBottom: '10px',
+        },
+      },
+    },
   }
 })
 

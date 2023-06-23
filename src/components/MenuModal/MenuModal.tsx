@@ -1,10 +1,10 @@
 import React from 'react'
 import { Backdrop, Box, Button, Chip, colors, Fade, Modal, Typography } from '@mui/material'
 import LightbulbIcon from '@mui/icons-material/Lightbulb'
-import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import MenuIcon from '@mui/icons-material/Menu'
 import DifficultyLevelList from 'constants/DifficultLevelList'
 import Colors from 'constants/Colors'
+import HelpCenterIcon from '@mui/icons-material/HelpCenter'
 
 const modalStyle = {
   position: 'absolute' as 'absolute',
@@ -24,24 +24,6 @@ const MenuModal = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  // const pickIcon = (key: string) => {
-  //   const iconSx = { position: 'absolute', left: 10, color: colors.grey[400] }
-  //   switch (key) {
-  //     case 'easy':
-  //       return <BoyIcon sx={iconSx} />
-  //     case 'medium':
-  //       return <EmojiPeopleTwoToneIcon sx={iconSx} />
-  //     case 'hard':
-  //       return <AccessibilityNewIcon sx={iconSx} />
-  //     case 'expert':
-  //       return <SkateboardingTwoToneIcon sx={iconSx} />
-  //     case 'master':
-  //       return <SportsMartialArtsTwoToneIcon sx={iconSx} />
-  //     case 'test':
-  //       return <RocketLaunchTwoToneIcon sx={iconSx} />
-  //   }
-  // }
 
   return (
     <>
@@ -82,7 +64,7 @@ const MenuModal = () => {
                     fullWidth={true}
                     sx={{ marginBottom: 1, color: colors.grey[100] }}
                   >
-                    <Chip icon={<CheckBoxIcon />} label={`${staticTiles}`} sx={{ position: 'absolute', left: 5, color: colors.grey[400] }} />
+                    <Chip icon={<HelpCenterIcon />} label={`${81 - staticTiles}`} sx={{ position: 'absolute', left: 5, color: colors.grey[400] }} />
                     {`${text} `}
                     {isHintingEnabled && <Chip icon={<LightbulbIcon />} label={`hints`} sx={{ position: 'absolute', right: 5, color: colors.grey[400] }} />}
                   </Button>)
