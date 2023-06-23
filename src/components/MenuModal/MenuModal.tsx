@@ -1,15 +1,10 @@
 import React from 'react'
 import { Backdrop, Box, Button, Chip, colors, Fade, Modal, Typography } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu';
+import LightbulbIcon from '@mui/icons-material/Lightbulb'
+import MenuIcon from '@mui/icons-material/Menu'
 import DifficultyLevelList from 'constants/DifficultLevelList'
 import Colors from 'constants/Colors'
-import EmojiPeopleTwoToneIcon from '@mui/icons-material/EmojiPeopleTwoTone'
-import RocketLaunchTwoToneIcon from '@mui/icons-material/RocketLaunchTwoTone'
-import SkateboardingTwoToneIcon from '@mui/icons-material/SkateboardingTwoTone'
-import SportsMartialArtsTwoToneIcon from '@mui/icons-material/SportsMartialArtsTwoTone'
-
-import BoyIcon from '@mui/icons-material/Boy';
-import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
+import HelpCenterIcon from '@mui/icons-material/HelpCenter'
 
 const modalStyle = {
   position: 'absolute' as 'absolute',
@@ -29,24 +24,6 @@ const MenuModal = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const pickIcon = (key: string) => {
-    const iconSx = { position: 'absolute', left: 10, color: colors.grey[400] }
-    switch (key) {
-      case 'easy':
-        return <BoyIcon sx={iconSx} />
-      case 'medium':
-        return <EmojiPeopleTwoToneIcon sx={iconSx} />
-      case 'hard':
-        return <AccessibilityNewIcon sx={iconSx} />
-      case 'expert':
-        return <SkateboardingTwoToneIcon sx={iconSx} />
-      case 'master':
-        return <SportsMartialArtsTwoToneIcon sx={iconSx} />
-      case 'test':
-        return <RocketLaunchTwoToneIcon sx={iconSx} />
-    }
-  }
 
   return (
     <>
@@ -76,7 +53,7 @@ const MenuModal = () => {
               <br />
               <Typography variant="h4" gutterBottom={true}>New Game</Typography>
               {
-                DifficultyLevelList.map(({ key, text, staticTiles}) => (
+                DifficultyLevelList.map(({ key, text, staticTiles, isHintingEnabled}) => (
                   <Button
                     size='large'
                     key={key}
@@ -87,9 +64,9 @@ const MenuModal = () => {
                     fullWidth={true}
                     sx={{ marginBottom: 1, color: colors.grey[100] }}
                   >
-                    {pickIcon(key)}
+                    <Chip icon={<HelpCenterIcon />} label={`${81 - staticTiles}`} sx={{ position: 'absolute', left: 5, color: colors.grey[400] }} />
                     {`${text} `}
-                    <Chip label={`${staticTiles} tiles`} sx={{ position: 'absolute', right: 5, color: colors.grey[400] }} />
+                    {isHintingEnabled && <Chip icon={<LightbulbIcon />} label={`hints`} sx={{ position: 'absolute', right: 5, color: colors.grey[400] }} />}
                   </Button>)
                 )
               }

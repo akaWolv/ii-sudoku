@@ -3,15 +3,18 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useBoardGenerator from '_hooks/useBoardGenerator'
 import useBoardHelper from '_hooks/useBoardHelper'
+import useStopwatchManager from '_hooks/useStopwatchManager'
 
 const useBoardManager = (difficultyLevel: DifficultyLevel) => {
   const navigate = useNavigate()
-  const { getBoardCode, getBoardFromCode, getStopwatch, pauseStopwatch } = useBoardHelper()
+  const { stopTimer } = useStopwatchManager()
+  const { getBoardCode, getBoardFromCode, getInvalidValuesForField } = useBoardHelper()
   const { getReport } = useBoardGenerator(difficultyLevel)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
   const [fieldList, setFieldList] = useState<Field[]>([])
   const [highlightedField, setHighlightedField] = useState<Field | undefined>(undefined)
   const [isGameFinished, setIsGameFinished] = useState<boolean>(false)
+  const { isHintingEnabled } = difficultyLevel
 
   const getFieldsFromSameGroups = (
     { square, vLine, hLine }: Field,
@@ -39,7 +42,7 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
           .length === 81
       setIsGameFinished(isGameFinished)
       if (isGameFinished) {
-        pauseStopwatch()
+        stopTimer()
       }
       return predefinedFieldList
     }
@@ -80,10 +83,12 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
   const getIsGameFinished = (): boolean => isGameFinished
   const getHighlightedField = (): Field | undefined => highlightedField
   const getIsGenerated = (): boolean => isLoaded
+  const getForbiddenValuesForField = (field: Field): number[] => getInvalidValuesForField(field, fieldList)
 
   return {
     getIsGenerated,
     getHighlightedField,
+    getForbiddenValuesForField,
     setHighlightedField,
     changeSelectedFieldValue,
     getFieldList,
@@ -92,7 +97,7 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
     getReport: getReport(),
     getFieldsFromSameGroups,
     isGameFinished: getIsGameFinished,
-    getStopwatch
+    isHintingEnabled: Boolean(isHintingEnabled)
   }
 }
 

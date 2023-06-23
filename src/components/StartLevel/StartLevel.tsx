@@ -5,15 +5,18 @@ import useBoardGenerator from '_hooks/useBoardGenerator'
 import useBoardHelper from '_hooks/useBoardHelper'
 import HourglassBottomTwoToneIcon from '@mui/icons-material/HourglassBottomTwoTone';
 import { StyledStartLevel } from 'components/StartLevel/StartLevel.styled'
+import useStopwatchManager from '_hooks/useStopwatchManager'
 
 const StartLevel: React.FC<any> = () => {
   const { difficultyLevelKey } = useParams()
-  const { getDifficultyLevelByKey, getBoardCode, resetStopwatch } = useBoardHelper()
+  const { getDifficultyLevelByKey, getBoardCode } = useBoardHelper()
   const difficultyLevel = getDifficultyLevelByKey(String(difficultyLevelKey))
-  const { generateBoard, getReport } = useBoardGenerator(difficultyLevel)
+  const { generateBoard } = useBoardGenerator(difficultyLevel)
+  const { restartTimer } = useStopwatchManager()
 
   useEffect(() => {
-    resetStopwatch()
+    restartTimer()
+
     const generatedBoardCode = getBoardCode(generateBoard())
     setTimeout(() => {
       window.location.href = `/${difficultyLevel.key}/${generatedBoardCode}`

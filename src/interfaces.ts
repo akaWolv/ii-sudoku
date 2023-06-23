@@ -21,6 +21,7 @@ type DifficultyLevel = {
   tilesPerSquare: number[]
   text: string
   isDefault?: boolean
+  isHintingEnabled? :boolean
 }
 
 export type {

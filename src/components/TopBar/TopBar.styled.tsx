@@ -14,6 +14,7 @@ const StyledTopBar = styled(Grid)`
 
 const StyledLogo = styled.img`
   height: 70px;
+  width: 70px;
   pointer-events: none;
 `
 

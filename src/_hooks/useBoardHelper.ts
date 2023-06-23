@@ -1,41 +1,11 @@
 import { DifficultyLevel, Field } from 'interfaces'
 import DifficultLevelList from 'constants/DifficultLevelList'
 import DefaultFieldList from 'constants/DefaultFieldList'
-import { useCookies } from 'react-cookie'
-import { useStopwatch } from 'react-timer-hook'
-import { useEffect } from 'react'
 
 const EMPTY = ','
 const INT2LETTERS = [EMPTY, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
-const STOPWATCH_COOKIE = 'stopwatch'
 
 const useBoardHelper = () => {
-  const [cookies, setCookie, removeCookie] = useCookies([STOPWATCH_COOKIE])
-
-  const getStopwatchOffset = (): Date => {
-    const time = cookies[STOPWATCH_COOKIE] || '0:0'
-    const [minutes, seconds] = time.split(':')
-    const stopwatchOffset = new Date();
-    stopwatchOffset.setMinutes(stopwatchOffset.getMinutes() + Number(minutes))
-    stopwatchOffset.setSeconds(stopwatchOffset.getSeconds() + Number(seconds))
-    return stopwatchOffset
-  }
-
-  const getStopwatch = (): string => `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
-
-  const { seconds, minutes, pause, reset } = useStopwatch({ autoStart: true, offsetTimestamp: getStopwatchOffset() })
-
-  const resetStopwatch = () => {
-    removeCookie(STOPWATCH_COOKIE)
-    setCookie(STOPWATCH_COOKIE, `0:0`, { path: '/' })
-    reset()
-  }
-  const pauseStopwatch = () => pause()
-
-  useEffect(() => {
-    setCookie(STOPWATCH_COOKIE, `${minutes}:${seconds}`, { path: '/' })
-  }, [seconds])
-
   const getFieldsFromSameGroups = (
     { square, vLine, hLine }: Field,
     fieldList: Field[]
@@ -76,6 +46,10 @@ const useBoardHelper = () => {
     const fieldList = [...DefaultFieldList]
 
     singleCodeList.forEach((singleCode, index) => {
+      if (!fieldList[index]) {
+        return
+      }
+
       const translatedValue = INT2LETTERS.indexOf(singleCode)
       if (translatedValue === -1) {
         fieldList[index].isStatic = false
@@ -117,17 +91,19 @@ const useBoardHelper = () => {
     )
 
     validatedFieldList.map((field) => {
-      // pick fields from groups
-      const fieldsToCheck = getFieldsFromSameGroups(field, validatedFieldList)
-      field.isValid = !fieldsToCheck
-        .filter(({ id, value }) => field.id != id && Boolean(value))
-        .map(({ value }) => value)
-        .includes(field.value)
-
+      field.isValid = !getInvalidValuesForField(field, validatedFieldList).includes(field.value as number)
       return field
     })
 
     return validatedFieldList
+  }
+
+  const getInvalidValuesForField = (field: Field, fieldList: Field[]): number[] => {
+    // pick fields from groups
+    const fieldsToCheck = getFieldsFromSameGroups(field, fieldList)
+    return fieldsToCheck
+      .filter(({ id, value }) => field.id != id && Boolean(value))
+      .map(({ value }) => value as number)
   }
 
   return {
@@ -135,12 +111,9 @@ const useBoardHelper = () => {
     getDifficultyLevelByKey,
     getBoardCode,
     getBoardFromCode,
+    getInvalidValuesForField,
     validateFields,
-    rewriteFields,
-    getStopwatchOffset,
-    getStopwatch,
-    pauseStopwatch,
-    resetStopwatch
+    rewriteFields
   }
 }
 

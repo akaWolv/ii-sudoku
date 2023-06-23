@@ -1,6 +1,6 @@
 import TileVariant from 'constants/TileVariant'
 import Group from 'constants/Group'
-import { Field } from 'interfaces'
+import { DifficultyLevel, Field } from 'interfaces'
 import { StyledButton, StyledSpan, StyledTile } from 'components/Tile/Tile.styled'
 
 const VariantASquares = [
@@ -10,18 +10,21 @@ const VariantASquares = [
   Group.SQUARE_2_3
 ]
 
-type Props = {
+type Tile = {
   field: Field,
   handlePick: Function,
+  difficultyLevel: DifficultyLevel,
   highlightedField?: Field
 }
-const Tile: React.FC<Props> = (
+const Tile: React.FC<Tile> = (
   {
     field,
     highlightedField,
+    difficultyLevel,
     handlePick
   }) => {
   const { id, square, hLine, vLine, generatedValue, value, isStatic, isValid } = field
+  const { isHintingEnabled } = difficultyLevel
   const {
     id :highlightedId,
     hLine: highlightedHLine,
@@ -29,8 +32,10 @@ const Tile: React.FC<Props> = (
     value: highlightedValue
   } = highlightedField || {}
 
-  const pickTileVariant = (square: Group): TileVariant =>
-    VariantASquares.includes(square) ? TileVariant.A : TileVariant.B
+  const tileValue: number = (isStatic ? generatedValue : value) || 0
+  const pickTileVariant = (square: Group): TileVariant => VariantASquares.includes(square)
+    ? TileVariant.A
+    : TileVariant.B
 
   return (
     <StyledTile
@@ -42,13 +47,14 @@ const Tile: React.FC<Props> = (
       $isHighlightedSameNumber={Boolean(highlightedValue) && highlightedValue === value}
       $isValid={isValid}
       $variant={pickTileVariant(square)}
+      $isHintingEnabled={Boolean(isHintingEnabled)}
     >
       <StyledButton
         variant='outlined'
         onClick={() => handlePick(field)}
       >
-        <StyledSpan isStatic={isStatic}>
-          {String((isStatic ? generatedValue : value) || ' ')}
+        <StyledSpan $isStatic={isStatic} $isEmpty={!Boolean(tileValue)}>
+          {String(tileValue)}
         </StyledSpan>
       </StyledButton>
     </StyledTile>
