@@ -8,11 +8,11 @@ const Start: React.FC<any> = () => {
   return (
     <StyledStart>
         <StyledLogo src={logo} className="App-logo" alt="logo" />
+        <Typography variant="h2">Sudoku</Typography>
+        <Typography variant="subtitle2">
+          by <a href={'http://indieimp.com'}>IndieImp.com</a>
+        </Typography>
         <StyledPaper elevation={4}>
-            <Typography variant="h2">Sudoku</Typography>
-            <Typography gutterBottom={true} variant="subtitle2">
-              by <a href={'http://indieimp.com'}>IndieImp.com</a>
-            </Typography>
           <Typography variant="h5" sx={{ fontWeight: 'lighter', marginBottom: '1em' }} >New Game</Typography>
           <Grid container alignItems="center" justifyContent="center">
             <DifficultyLevelMenu isRwd={true} />

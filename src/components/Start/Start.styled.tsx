@@ -6,6 +6,7 @@ const StyledPaper = styled(Paper)`
   margin: 1em;
   color: ${Colors.IMP_ORANGE} !important;
   background-color: ${Colors.IMP_DARK_GREY} !important;
+  padding-bottom: 1em !important;
 `
 const StyledStart = styled.div`
   width: 100vw;
@@ -18,7 +19,7 @@ const StyledStart = styled.div`
 const StyledLogo = styled.img`
   width: 120px;
   pointer-events: none;
-  float: left;
+  margin: 0.7em;
 `
 
 export {
