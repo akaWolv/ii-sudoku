@@ -6,7 +6,7 @@
     "dev": "vite --host",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "start": "NODE_ENV=production vite preview --port 3002 --mode production"
+    "start": "NODE_ENV=production vite preview --port 3002 --host 127.0.0.1 --mode production"
   },
   "dependencies": {
     "@emotion/react": "11.9.0",
