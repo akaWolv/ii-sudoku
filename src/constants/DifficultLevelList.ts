@@ -7,8 +7,7 @@ const DifficultyLevelList: DifficultyLevel[] = [
     staticTiles: 38,
     tilesPerSquare: [5, 5, 4, 4, 4, 4, 4, 4, 4],
     text: 'easy',
-    isHintingEnabled: true,
-    isDefault: true
+    isHintingEnabled: true
   },
   {
     level: 2,
@@ -16,7 +15,8 @@ const DifficultyLevelList: DifficultyLevel[] = [
     staticTiles: 32,
     tilesPerSquare: [5, 4, 4, 4, 3, 3, 3, 3, 3],
     text: 'medium',
-    isHintingEnabled: true
+    isHintingEnabled: true,
+    isDefault: true
   },
   {
     level: 3,

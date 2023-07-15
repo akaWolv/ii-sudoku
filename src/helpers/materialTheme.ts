@@ -21,23 +21,23 @@ const theme = createTheme({
     },
     h2: {
       fontSize: '2.3rem',
-      fontWeight: 600
+      fontWeight: 200
     },
     h3: {
       fontSize: '1.5rem',
-      fontWeight: 600
+      fontWeight: 200
     },
     h4: {
       fontSize: '1.3rem',
-      fontWeight: 400
+      fontWeight: 200
     },
     h5: {
       fontSize: '1.2rem',
-      fontWeight: 600
+      fontWeight: 200
     },
     h6: {
       fontSize: '0.875rem',
-      fontWeight: 600,
+      fontWeight: 200,
       lineHeight: 1.5
     },
     caption: {

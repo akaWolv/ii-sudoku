@@ -1,10 +1,8 @@
 import React from 'react'
-import { Backdrop, Box, Button, Chip, colors, Fade, Modal, Typography } from '@mui/material'
-import LightbulbIcon from '@mui/icons-material/Lightbulb'
+import { Backdrop, Box, Button, Chip, colors, Fade, Grid, Modal, Typography } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
-import DifficultyLevelList from 'constants/DifficultLevelList'
 import Colors from 'constants/Colors'
-import HelpCenterIcon from '@mui/icons-material/HelpCenter'
+import DifficultyLevelMenu from '../DifficultyLevelMenu';
 
 const modalStyle = {
   position: 'absolute' as 'absolute',
@@ -17,7 +15,7 @@ const modalStyle = {
   bgcolor: colors.grey[900],
   border: '2px solid #000',
   boxShadow: 24,
-  p: 4,
+  p: 3,
 };
 
 const MenuModal = () => {
@@ -48,28 +46,13 @@ const MenuModal = () => {
         <Fade in={open}>
           <Box sx={modalStyle}>
             <div style={{ textAlign: 'center', marginBottom: 2 }}>
-              <Typography variant="h2">Game Menu</Typography>
-              <Typography variant="h6">Sudoku by <i>Indie Imp</i></Typography>
+              <Typography variant="h2" sx={{ fontWeight: 'lighter' }}>Sudoku</Typography>
+              <Typography variant="subtitle2" sx={{ fontWeight: 'lighter' }}>
+                by <a href={'http://indieimp.com'}>IndieImp.com</a>
+              </Typography>
               <br />
-              <Typography variant="h4" gutterBottom={true}>New Game</Typography>
-              {
-                DifficultyLevelList.map(({ key, text, staticTiles, isHintingEnabled}) => (
-                  <Button
-                    size='large'
-                    key={key}
-                    variant='outlined'
-                    onClick={() => {
-                      window.location.href = `/${key}`
-                    }}
-                    fullWidth={true}
-                    sx={{ marginBottom: 1, color: colors.grey[100] }}
-                  >
-                    <Chip icon={<HelpCenterIcon />} label={`${81 - staticTiles}`} sx={{ position: 'absolute', left: 5, color: colors.grey[400] }} />
-                    {`${text} `}
-                    {isHintingEnabled && <Chip icon={<LightbulbIcon />} label={`hints`} sx={{ position: 'absolute', right: 5, color: colors.grey[400] }} />}
-                  </Button>)
-                )
-              }
+              <Typography variant="h5" sx={{ fontWeight: 'lighter', marginBottom: '1em' }} >Start New Game</Typography>
+              <DifficultyLevelMenu />
             </div>
           </Box>
         </Fade>

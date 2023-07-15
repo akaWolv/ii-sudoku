@@ -3,7 +3,9 @@ import { Grid, Paper } from '@mui/material'
 import Colors from 'constants/Colors'
 
 const StyledGrid = styled(Grid)`
-  padding: 5vw;
+  padding-top: 5vh;
+  padding-left: 5vw;
+  padding-right: 5vw;
   max-width: 800px;
 `
 const StyledPaper = styled(Paper)`
@@ -19,8 +21,9 @@ const StyledStart = styled.div`
   align-items: center;
 `
 const StyledLogo = styled.img`
-  width: 150px;
+  width: 70px;
   pointer-events: none;
+  float: left;
 `
 
 export {

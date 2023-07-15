@@ -41,7 +41,6 @@ const TopBar: React.FC<TopBar> = ({ difficultyLevel}) => {
           <a href="http://indieimp.com">
             <StyledLogo src={logo} className="App-logo" alt="logo" />
           </a>
-          {/*<Chip label={time || <span style={{ opacity: 0.5 }}>00:00</span>} style={{ margin: '10px' }}  />*/}
         </Grid>
         <Grid item xs={3}>
           <StyledPaper elevation={3}>
