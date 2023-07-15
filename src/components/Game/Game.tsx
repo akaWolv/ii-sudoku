@@ -47,12 +47,12 @@ function  Game() {
         justifyContent="center"
         alignItems="center"
       >
-        <Grid item xs={12} sm={9} md={7} lg={6}>
+        <Grid item xs={12} sm={10} md={7} lg={6}>
           <TopBar
             difficultyLevel={difficultyLevel}
           />
         </Grid>
-        <Grid item xs={10} sm={3} md={3} lg={2} />
+        <Grid item xs={11} sm={7} md={3} lg={3} />
       </Grid>
       <Grid
         container
@@ -60,11 +60,11 @@ function  Game() {
         direction="row"
         justifyContent="center"
         alignItems="center"
-        style={{ padding: 0, flexGrow: 2 }}
+        style={{ padding: 0 }}
       >
         <Grid
           item
-          xs={12} sm={9} md={7} lg={6}
+          xs={12} sm={12} md={7} lg={6}
           container
           direction="column"
           justifyContent="center"
@@ -85,7 +85,11 @@ function  Game() {
         </Grid>
         <Grid
           item
-          xs={10} sm={3} md={3} lg={2}
+          xs={11} sm={7} md={3} lg={3}
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
         >
           <Controls
             changeSelectedFieldValue={changeSelectedFieldValue}

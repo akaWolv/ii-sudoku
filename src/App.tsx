@@ -5,6 +5,7 @@ import AppProvider from 'common/AppProvider'
 import Start from 'components/Start'
 import StartLevel from 'components/StartLevel'
 import Game from 'components/Game'
+import PleaseRotate from './components/PleaseRotate'
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           </BrowserRouter>
         </div>
       </StopwatchWrapper>
+      <PleaseRotate />
     </AppProvider>
   )
 }

@@ -9,6 +9,11 @@ const ControlsContainer = styled.div<ControlsContainer>`
   margin-top: 1em;
   position: relative;
   filter: ${({ $isHighlightedField }) => $isHighlightedField ? 'none': 'blur(1px) grayscale(100%) opacity(40%)'};
+  max-width: 300px;
+  @media only screen and (max-width:850px)
+  {
+    max-width: 450px;
+  }
 `
 const Bland = styled.div`
   position: absolute;
@@ -19,9 +24,12 @@ const Bland = styled.div`
 `
 
 const ButtonContainer = styled(Grid)`
-  margin-bottom: 0.5em;
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  margin: 0;
   display: flex;
   justify-content: center;
+  align-items: center;
 `
 const StyledControlButton = styled(Button)<{
   $isDisabled: boolean

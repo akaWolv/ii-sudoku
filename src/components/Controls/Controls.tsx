@@ -43,7 +43,6 @@ const Controls: React.FC<Props> = (
       <div>
         <Grid
           container
-          spacing={2}
           columns={10}
           direction="row"
           justifyContent="center"
@@ -58,7 +57,7 @@ const Controls: React.FC<Props> = (
               }
 
               return (
-                <ButtonContainer key={String(value)} item xs={2} sm={4} md={3} lg={4} xl={3}>
+                <ButtonContainer key={String(value)} item xs={2} sm={2} md={4} lg={4} xl={3}>
                   <StyledControlButton
                     variant="outlined"
                     onClick={() => {

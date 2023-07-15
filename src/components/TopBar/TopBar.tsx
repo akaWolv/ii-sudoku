@@ -32,7 +32,7 @@ const TopBar: React.FC<TopBar> = ({ difficultyLevel}) => {
       >
         <Grid item xs={3} sx={{position: 'relative'}}>
           <StyledPaper elevation={3}>
-            <Typography variant="h5">SUDOKU</Typography>
+            <Typography variant="h6">SUDOKU</Typography>
             <Typography variant="caption">{difficultyLevel.text}</Typography>
           </StyledPaper>
         </Grid>

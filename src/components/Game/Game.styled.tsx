@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const StyledGame = styled.div`
-  height: 96vh;
+  height: 90vh;
   padding: 0;
   margin: 0;
   

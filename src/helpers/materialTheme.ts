@@ -50,9 +50,9 @@ const theme = createTheme({
     values: {
       xs: 0,
       sm: 700,
-      md: 900,
-      lg: 1200,
-      xl: 1536,
+      md: 850,
+      lg: 950,
+      xl: 1100
     },
   },
   palette: {

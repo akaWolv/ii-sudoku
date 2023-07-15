@@ -1,5 +1,5 @@
 import React from 'react'
-import { Backdrop, Box, Button, Chip, colors, Fade, Grid, Modal, Typography } from '@mui/material'
+import { Backdrop, Box, Button, colors, Fade, Modal, Typography } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import Colors from 'constants/Colors'
 import DifficultyLevelMenu from '../DifficultyLevelMenu';
@@ -29,7 +29,8 @@ const MenuModal = () => {
         size='large'
         variant="text"
         onClick={handleOpen}
-        startIcon={<MenuIcon />}
+        startIcon={<MenuIcon style={{ fontSize: '1.3em' }} />}
+        sx={{ fontSize: '0.8em'}}
       >
         Menu
       </Button>
