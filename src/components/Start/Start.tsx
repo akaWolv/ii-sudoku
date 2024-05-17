@@ -13,7 +13,7 @@ const Start: React.FC<any> = () => {
           by <a href={'http://indieimp.com'}>IndieImp.com</a>
         </Typography>
         <StyledPaper elevation={4}>
-          <Typography variant="h5" sx={{ fontWeight: 'lighter', marginBottom: '1em' }} >New Game</Typography>
+          <Typography variant="h5" sx={{ fontWeight: 'lighter', marginBottom: '1em' }} >Start New Game</Typography>
           <Grid container alignItems="center" justifyContent="center">
             <DifficultyLevelMenu isRwd={true} />
           </Grid>
