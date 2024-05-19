@@ -12,7 +12,7 @@ const StyledPleaseRotate = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: ${Colors.IMP_LIGHT_GREY};
+    background-color: ${({theme}) => theme.palette.mode == 'light' ? Colors.IMP_LIGHT_WHITE : Colors.IMP_LIGHT_GREY};
     display: flex;
     justify-content: center;
     align-items: center;

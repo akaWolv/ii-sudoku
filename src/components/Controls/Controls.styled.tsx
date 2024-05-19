@@ -1,4 +1,5 @@
 import { Button, Grid } from '@mui/material'
+import { colors } from '@mui/material'
 import styled from 'styled-components'
 import Colors from 'constants/Colors'
 
@@ -38,11 +39,11 @@ const StyledControlButton = styled(Button)<{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: ${Colors.IMP_LIGHT_GREY} !important;
+  background-color: ${({theme}) => theme.palette.mode == 'light' ? colors.grey[100] : Colors.IMP_LIGHT_GREY} !important;
   opacity: ${({ $isDisabled }) => $isDisabled ? '0.3' : '1'};
 `
 const StyledSpan = styled.span`
-  color: ${Colors.IMP_ORANGE};
+  color: ${({theme}) => theme.palette.mode == 'light' ? colors.orange[500] : Colors.IMP_ORANGE};
   font-size: 1.9em;
 `
 

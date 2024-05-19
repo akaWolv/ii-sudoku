@@ -24,7 +24,10 @@ type DifficultyLevel = {
   isHintingEnabled? :boolean
 }
 
+type ThemeColorMode = 'light' | 'dark'
+
 export type {
+  DifficultyLevel,
   Field,
-  DifficultyLevel
+  ThemeColorMode
 }

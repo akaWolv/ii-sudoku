@@ -3,6 +3,7 @@ import { Grid, Typography } from '@mui/material'
 import { StyledLogo, StyledPaper, StyledStart } from 'components/Start/Start.styled'
 import logo from 'indieimp.svg'
 import DifficultyLevelMenu from '../DifficultyLevelMenu';
+import ThemeSwitch from 'components/ThemeSwitch';
 
 const Start: React.FC<any> = () => {
   return (
@@ -18,6 +19,7 @@ const Start: React.FC<any> = () => {
             <DifficultyLevelMenu isRwd={true} />
           </Grid>
         </StyledPaper>
+        <ThemeSwitch />
     </StyledStart>
   )
 }

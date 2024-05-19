@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import Colors from 'constants/Colors'
 
 const StyledPaper = styled(Paper)`
-  background-color: ${Colors.IMP_LIGHT_GREY} !important;
   padding: 1em;
   color: ${Colors.IMP_ORANGE} !important;
 `

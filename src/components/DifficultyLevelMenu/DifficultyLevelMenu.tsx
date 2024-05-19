@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  Button,
-  Chip,
-  colors,
-  Grid,
-} from '@mui/material'
+import { Button, Chip, Grid } from '@mui/material'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 import DifficultyLevelList from 'constants/DifficultLevelList'
 
@@ -28,7 +23,6 @@ const DifficultyLevelMenu: React.FC<any> = ({ isRwd }) => {
               fullWidth={true}
               sx={{
                 marginBottom: 1,
-                color: colors.grey[100],
                 textDecoration: isDefault ? "underline" : "inherit",
                 textDecorationColor: 'gray'
               }}
@@ -36,9 +30,9 @@ const DifficultyLevelMenu: React.FC<any> = ({ isRwd }) => {
               <Chip
                 size="small"
                 variant='outlined'
-                icon={<AppRegistrationIcon style={{ color: colors.grey[600] }} />}
+                icon={<AppRegistrationIcon />}
                 label={`${staticTiles} / 81`}
-                sx={{ position: 'absolute', left: 5, color: colors.grey[400] }}
+                sx={{ position: 'absolute', left: 5 }}
               />
               {`${text}`}
               {
@@ -48,8 +42,7 @@ const DifficultyLevelMenu: React.FC<any> = ({ isRwd }) => {
                     size="small"
                     variant='outlined'
                     label="no hints"
-                    // icon={<LightbulbIcon style={{ color: colors.grey[600] }} />}
-                    sx={{ position: 'absolute', right: 5, color: colors.grey[400] }}
+                    sx={{ position: 'absolute', right: 5 }}
                   />
                 )
               }

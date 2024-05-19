@@ -1,5 +1,5 @@
 import React  from 'react'
-import { Chip, Grid, Typography } from '@mui/material'
+import { Chip, Grid, Typography, colors } from '@mui/material'
 import { useSelector } from 'react-redux'
 import logo from 'indieimp.svg'
 import MenuModal from 'components/MenuModal'
@@ -37,7 +37,7 @@ const TopBar: React.FC<TopBar> = ({ difficultyLevel}) => {
           </StyledPaper>
         </Grid>
         <Grid item xs={6} sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-          <Chip label={time || <span style={{ opacity: 0.5 }}>00:00</span>} style={{ margin: '10px' }}  />
+          <Chip label={time || <span style={{ opacity: 0.3 }}>00:00</span>} style={{ margin: '10px', fontSize: '1.1em' }} />
           <a href="http://indieimp.com">
             <StyledLogo src={logo} className="App-logo" alt="logo" />
           </a>

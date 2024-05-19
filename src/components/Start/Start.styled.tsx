@@ -1,11 +1,8 @@
 import styled from 'styled-components'
 import { Paper } from '@mui/material'
-import Colors from 'constants/Colors'
 
 const StyledPaper = styled(Paper)`
   margin: 1em;
-  color: ${Colors.IMP_ORANGE} !important;
-  background-color: ${Colors.IMP_DARK_GREY} !important;
   padding-bottom: 1em !important;
 `
 const StyledStart = styled.div`
