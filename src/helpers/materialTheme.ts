@@ -89,8 +89,8 @@ const generateTheme = (selectedThemeColor: 'light' | 'dark' = 'light'): Theme =>
             padding: '10px 0',
             minHeight: '100%',
             fontFamily: 'Lato, sans-serif',
-            '-webkit-font-smoothing': 'antialiased',
-            '-moz-osx-font-smoothing': 'grayscale',
+            WebkitFontSmoothing: 'antialiased',
+            MozOsxFontSmoothing: 'grayscale',
           }
         }
       },

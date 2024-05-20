@@ -27,25 +27,27 @@ const DifficultyLevelMenu: React.FC<any> = ({ isRwd }) => {
                 textDecorationColor: 'gray'
               }}
             >
-              <Chip
-                size="small"
-                variant='outlined'
-                icon={<AppRegistrationIcon />}
-                label={`${staticTiles} / 81`}
-                sx={{ position: 'absolute', left: 5 }}
-              />
-              {`${text}`}
-              {
-                isHintingEnabled
-                || (
-                  <Chip
-                    size="small"
-                    variant='outlined'
-                    label="no hints"
-                    sx={{ position: 'absolute', right: 5 }}
-                  />
-                )
-              }
+              <>
+                <Chip
+                  size="small"
+                  variant='outlined'
+                  icon={<AppRegistrationIcon />}
+                  label={`${staticTiles} / 81`}
+                  sx={{ position: 'absolute', left: 5 }}
+                />
+                {text}
+                {
+                  isHintingEnabled
+                  || (
+                    <Chip
+                      size="small"
+                      variant='outlined'
+                      label="no hints"
+                      sx={{ position: 'absolute', right: 5 }}
+                    />
+                  )
+                }
+              </>
             </Button>
           </Grid>
         )

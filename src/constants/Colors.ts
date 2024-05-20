@@ -7,7 +7,6 @@ const Colors = {
   IMP_DARK_GREY: '#111111',
   IMP_LIGHT_WHITE: '#FAF9F6', 
   IMP_DARK_WHITE: '#FFF5EA',
-  // IMP_DIM_WHITE: '#FAF5FF',
 }
 
 export default Colors
