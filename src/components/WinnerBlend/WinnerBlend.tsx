@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Button } from '@mui/material'
 import { DifficultyLevel } from 'interfaces'
-import { StyledWinnerBlend, StyledTime, StyledEmoji, StyledCongrats } from 'components/WinnerBlend/WinnerBlend.styled'
+import { StyledButton, StyledWinnerBlend, StyledTime, StyledEmoji, StyledCongrats } from 'components/WinnerBlend/WinnerBlend.styled'
 import AccessTimeTwoToneIcon from '@mui/icons-material/AccessTimeTwoTone';
 import type { RootState } from 'stores/stopwatch'
 
@@ -21,14 +21,14 @@ const WinnerBlend = ({ difficultyLevel }: WinnerBlend) => {
     </StyledTime>
     <StyledEmoji variant='h1' >🐇</StyledEmoji>
     <StyledCongrats>Yeah, bunny!</StyledCongrats>
-    <Button
+    <StyledButton
       variant='contained'
       onClick={() => {
         window.location.href = `/${difficultyLevel.key}/`
       }}
     >
       Another&nbsp;<u><b>{difficultyLevel.text}</b></u>&nbsp;game ?
-    </Button>
+    </StyledButton>
   </StyledWinnerBlend>
 )}
 

@@ -1,4 +1,4 @@
-import { alpha, colors, Paper, Typography } from '@mui/material'
+import { alpha, Button, colors, Paper, Typography } from '@mui/material'
 import styled from 'styled-components'
 
 const StyledWinnerBlend = styled.div`
@@ -27,18 +27,24 @@ const StyledTime = styled(Paper)`
   display: flex;
   justify-content: center;
   align-items: center;
+  color: ${colors.grey[200]} !important;
 `
 const StyledCongrats = styled(Paper)`
   font-size: 1.5em !important;
   margin-bottom: 0.8em !important;
   background-color: ${colors.lightGreen[900]} !important;
   padding: 0.3em;
+  color: ${colors.grey[300]} !important;
 `
 const StyledEmoji = styled(Typography)`
   font-size: 100px !important;
 `
+const StyledButton = styled(Button)`
+  color: ${colors.grey[100]} !important;
+`
 
 export {
+  StyledButton,
   StyledWinnerBlend,
   StyledTime,
   StyledEmoji,
