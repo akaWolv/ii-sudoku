@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -13,7 +14,6 @@ import {
   Grid,
   IconButton,
   InputLabel,
-  LinearProgress,
   MenuItem,
   Select,
   Stack,
@@ -23,8 +23,7 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
-import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
+import CheckIcon from '@mui/icons-material/Check'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import DifficultyLevelList from 'constants/DifficultLevelList'
 import { SavedGame } from 'interfaces'
@@ -34,11 +33,78 @@ import {
   StyledEmptyState,
   StyledFilterPaper,
   StyledGameCard,
-  StyledGameRow,
   StyledHeader,
-  StyledProgressBarContainer,
   StyledSavedGamesContainer
 } from './SavedGames.styled'
+
+const GameProgressCircle: React.FC<{ progressPercent: number; isCompleted: boolean }> = ({
+  progressPercent,
+  isCompleted
+}) => {
+  const circleColor = isCompleted ? '#22c55e' : '#eab308'
+
+  return (
+    <Box
+      sx={{
+        position: 'relative',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0
+      }}
+    >
+      <CircularProgress
+        variant="determinate"
+        value={100}
+        size={54}
+        thickness={4}
+        sx={{
+          color: (theme) =>
+            theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.08)',
+          position: 'absolute'
+        }}
+      />
+      <CircularProgress
+        variant="determinate"
+        value={progressPercent}
+        size={54}
+        thickness={4}
+        sx={{
+          color: circleColor,
+          strokeLinecap: 'round'
+        }}
+      />
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        {isCompleted ? (
+          <CheckIcon sx={{ color: '#22c55e', fontSize: '1.6rem', fontWeight: 'bold' }} />
+        ) : (
+          <Typography
+            variant="caption"
+            component="div"
+            sx={{
+              fontWeight: 800,
+              fontSize: '0.75rem',
+              color: (theme) => (theme.palette.mode === 'light' ? '#854d0e' : '#fde047')
+            }}
+          >
+            {`${progressPercent}%`}
+          </Typography>
+        )}
+      </Box>
+    </Box>
+  )
+}
 
 const formatTime = (seconds: number): string => {
   const mins = Math.floor(seconds / 60)
@@ -123,7 +189,7 @@ const SavedGames: React.FC = () => {
           </IconButton>
           <div>
             <Typography variant="h4" component="h1" sx={{ fontWeight: 400 }}>
-              Saved Games
+              Load game
             </Typography>
             <Typography variant="caption" sx={{ opacity: 0.7 }}>
               {games.length} {games.length === 1 ? 'game' : 'games'} in local storage
@@ -203,60 +269,83 @@ const SavedGames: React.FC = () => {
       ) : (
         filteredAndSortedGames.map((game) => (
           <StyledGameCard key={game.id} elevation={3}>
-            <StyledGameRow>
-              <Stack direction="row" spacing={1} alignItems="center">
-                <Chip
-                  label={game.difficultyText || game.difficultyKey}
-                  variant="outlined"
-                  size="small"
-                  sx={{ textTransform: 'capitalize', fontWeight: 600 }}
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' },
+                alignItems: { xs: 'stretch', sm: 'center' },
+                justifyContent: 'space-between',
+                gap: { xs: 1.5, sm: 2 }
+              }}
+            >
+              {/* Left group: Circular Progress + Info */}
+              <Stack direction="row" spacing={2} alignItems="center" sx={{ flex: 1, minWidth: 0 }}>
+                <GameProgressCircle
+                  progressPercent={game.progressPercent}
+                  isCompleted={game.status === 'finished'}
                 />
-                {game.status === 'finished' ? (
-                  <Chip
-                    icon={<CheckCircleOutlineIcon />}
-                    label="Completed"
-                    size="small"
-                    color="success"
-                    variant="outlined"
-                  />
-                ) : (
-                  <Chip
-                    icon={<PauseCircleOutlineIcon />}
-                    label="In Progress"
-                    size="small"
-                    variant="outlined"
-                  />
-                )}
-              </Stack>
 
-              <Stack direction="row" spacing={1} alignItems="center">
-                <Box sx={{ display: 'flex', alignItems: 'center', opacity: 0.75, fontSize: '0.875rem' }}>
-                  <AccessTimeIcon sx={{ fontSize: '1rem', mr: 0.5 }} />
-                  {formatTime(game.elapsedSeconds)}
+                <Box sx={{ flex: 1, minWidth: 0 }}>
+                  {/* Top: Cells count + Difficulty chip + Time */}
+                  <Stack direction="row" spacing={1.2} alignItems="center" flexWrap="wrap" sx={{ mb: 0.5 }}>
+                    <Typography variant="body1" component="span" sx={{ fontWeight: 700, fontSize: '0.95rem' }}>
+                      {game.filledCount} / {game.totalCount} cells
+                    </Typography>
+
+                    <Chip
+                      label={game.difficultyText || game.difficultyKey}
+                      variant="outlined"
+                      size="small"
+                      sx={{
+                        textTransform: 'capitalize',
+                        fontWeight: 700,
+                        fontSize: '0.75rem',
+                        height: 22
+                      }}
+                    />
+
+                    <Box
+                      sx={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        opacity: 0.75,
+                        fontSize: '0.8rem',
+                        fontWeight: 500
+                      }}
+                    >
+                      <AccessTimeIcon sx={{ fontSize: '0.95rem', mr: 0.4 }} />
+                      {formatTime(game.elapsedSeconds)}
+                    </Box>
+                  </Stack>
+
+                  {/* Bottom: Started + Last played */}
+                  <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
+                    <Typography variant="caption" sx={{ opacity: 0.6, fontSize: '0.75rem' }}>
+                      Started: {formatDate(game.createdAt)}
+                    </Typography>
+                    <Typography variant="caption" sx={{ opacity: 0.6, fontSize: '0.75rem' }}>
+                      Last played: {formatDate(game.updatedAt)}
+                    </Typography>
+                  </Stack>
                 </Box>
-                <Typography variant="caption" sx={{ opacity: 0.6 }}>
-                  {formatDate(game.updatedAt)}
-                </Typography>
               </Stack>
-            </StyledGameRow>
 
-            <StyledProgressBarContainer>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', opacity: 0.8 }}>
-                <span>Progress: {game.progressPercent}%</span>
-                <span>{game.filledCount} / {game.totalCount} cells</span>
-              </Box>
-              <LinearProgress
-                variant="determinate"
-                value={game.progressPercent}
-                sx={{ height: 6, borderRadius: 3 }}
-              />
-            </StyledProgressBarContainer>
-
-            <StyledGameRow>
-              <Typography variant="caption" sx={{ opacity: 0.5 }}>
-                Started: {formatDate(game.createdAt)}
-              </Typography>
-              <Stack direction="row" spacing={1}>
+              {/* Right group: Actions */}
+              <Stack
+                direction="row"
+                spacing={1}
+                alignItems="center"
+                justifyContent="flex-end"
+                sx={{
+                  pt: { xs: 1, sm: 0 },
+                  borderTop: {
+                    xs: (theme) =>
+                      `1px solid ${theme.palette.mode === 'light' ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.06)'}`,
+                    sm: 'none'
+                  },
+                  flexShrink: 0
+                }}
+              >
                 <Tooltip title="Delete game">
                   <IconButton
                     size="small"
@@ -272,11 +361,12 @@ const SavedGames: React.FC = () => {
                   size="small"
                   startIcon={<PlayArrowIcon />}
                   onClick={() => handleResume(game)}
+                  sx={{ minWidth: 95 }}
                 >
                   {game.status === 'finished' ? 'View Board' : 'Resume'}
                 </Button>
               </Stack>
-            </StyledGameRow>
+            </Box>
           </StyledGameCard>
         ))
       )}
