@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import useBoardGenerator from '_hooks/useBoardGenerator'
 import useBoardHelper from '_hooks/useBoardHelper'
@@ -8,19 +8,17 @@ import { StyledStartLevel } from 'components/StartLevel/StartLevel.styled'
 import useStopwatchManager from '_hooks/useStopwatchManager'
 
 const StartLevel: React.FC<any> = () => {
+  const navigate = useNavigate()
   const { difficultyLevelKey } = useParams()
   const { getDifficultyLevelByKey, getBoardCode } = useBoardHelper()
   const difficultyLevel = getDifficultyLevelByKey(String(difficultyLevelKey))
   const { generateBoard } = useBoardGenerator(difficultyLevel)
-  const { restartTimer } = useStopwatchManager()
+  const { resetTimer } = useStopwatchManager()
 
   useEffect(() => {
-    restartTimer()
-
+    resetTimer(0)
     const generatedBoardCode = getBoardCode(generateBoard())
-    setTimeout(() => {
-      window.location.href = `/${difficultyLevel.key}/${generatedBoardCode}`
-    }, 0)
+    navigate(`/${difficultyLevel.key}/${generatedBoardCode}`, { replace: true })
   }, [])
 
   return <StyledStartLevel>

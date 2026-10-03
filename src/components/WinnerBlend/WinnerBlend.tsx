@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Button } from '@mui/material'
 import { DifficultyLevel } from 'interfaces'
@@ -12,6 +13,7 @@ interface WinnerBlend {
 }
 
 const WinnerBlend = ({ difficultyLevel }: WinnerBlend) => {
+  const navigate = useNavigate()
   const time = useSelector((state: RootState) => state.stopwatch.time)
 
   return (
@@ -24,7 +26,7 @@ const WinnerBlend = ({ difficultyLevel }: WinnerBlend) => {
     <StyledButton
       variant='contained'
       onClick={() => {
-        window.location.href = `/${difficultyLevel.key}/`
+        navigate(`/${difficultyLevel.key}`)
       }}
     >
       Another&nbsp;<u><b>{difficultyLevel.text}</b></u>&nbsp;game ?

@@ -1,13 +1,17 @@
 import { DifficultyLevel, Field } from 'interfaces'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useBoardGenerator from '_hooks/useBoardGenerator'
 import useBoardHelper from '_hooks/useBoardHelper'
 import useStopwatchManager from '_hooks/useStopwatchManager'
+import { getSavedGameByGameKey, saveOrUpdateGame } from 'helpers/savedGamesStorage'
 
 const useBoardManager = (difficultyLevel: DifficultyLevel) => {
   const navigate = useNavigate()
-  const { stopTimer } = useStopwatchManager()
+  const { stopTimer, resumeTimer, resetTimer, getElapsedSeconds } = useStopwatchManager()
+  const difficultyLevelRef = useRef(difficultyLevel)
+  difficultyLevelRef.current = difficultyLevel
+
   const {
     getBoardCode,
     getBoardFromCode,
@@ -23,13 +27,38 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
   const lastLoadedKey = useRef<string | null>(null)
   const { isHintingEnabled } = difficultyLevel
 
-  const checkAndHandleGameFinished = (fields: Field[]): boolean => {
+  // Stop timer and persist latest elapsed seconds on unmount
+  useEffect(() => {
+    return () => {
+      stopTimer()
+      if (lastLoadedKey.current) {
+        saveOrUpdateGame({
+          difficultyKey: difficultyLevelRef.current.key,
+          difficultyText: difficultyLevelRef.current.text,
+          currentGameKey: lastLoadedKey.current,
+          elapsedSeconds: getElapsedSeconds()
+        })
+      }
+      resetTimer(0)
+    }
+  }, [])
+
+  const checkAndHandleGameFinished = (fields: Field[], currentElapsed?: number): boolean => {
     const finished = fields.length === 81 && fields.every(
       ({ value, isStatic, isValid }) => (isStatic || Boolean(value)) && isValid
     )
     setIsGameFinished(finished)
     if (finished) {
       stopTimer()
+      if (lastLoadedKey.current) {
+        saveOrUpdateGame({
+          difficultyKey: difficultyLevelRef.current.key,
+          difficultyText: difficultyLevelRef.current.text,
+          currentGameKey: lastLoadedKey.current,
+          elapsedSeconds: currentElapsed !== undefined ? currentElapsed : getElapsedSeconds(),
+          isFinished: true
+        })
+      }
     }
     return finished
   }
@@ -43,10 +72,42 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
     }
     const predefinedFieldList = getBoardFromCode(gameKey)
     if (predefinedFieldList) {
+      if (lastLoadedKey.current && lastLoadedKey.current !== gameKey) {
+        saveOrUpdateGame({
+          difficultyKey: difficultyLevelRef.current.key,
+          difficultyText: difficultyLevelRef.current.text,
+          currentGameKey: lastLoadedKey.current,
+          elapsedSeconds: getElapsedSeconds()
+        })
+      }
+
       lastLoadedKey.current = gameKey
       setFieldList(predefinedFieldList)
       setIsLoaded(true)
-      checkAndHandleGameFinished(predefinedFieldList)
+
+      // Start/restore timer per game
+      const existing = getSavedGameByGameKey(gameKey)
+      const initialSeconds = existing ? existing.elapsedSeconds : 0
+
+      const isFinished = checkAndHandleGameFinished(predefinedFieldList, initialSeconds)
+
+      if (!isFinished) {
+        resumeTimer(initialSeconds)
+      } else {
+        stopTimer()
+        resetTimer(initialSeconds)
+      }
+
+      if (!existing) {
+        saveOrUpdateGame({
+          difficultyKey: difficultyLevel.key,
+          difficultyText: difficultyLevel.text,
+          currentGameKey: gameKey,
+          elapsedSeconds: 0,
+          isFinished
+        })
+      }
+
       return predefinedFieldList
     }
     return false
@@ -92,6 +153,15 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
 
     const boardCode = getBoardCode(validated)
     lastLoadedKey.current = boardCode
+
+    saveOrUpdateGame({
+      difficultyKey: difficultyLevel.key,
+      difficultyText: difficultyLevel.text,
+      currentGameKey: boardCode,
+      elapsedSeconds: getElapsedSeconds(),
+      isFinished: isGameFinished
+    })
+
     navigate(`/${difficultyLevel.key}/${boardCode}`)
   }
 

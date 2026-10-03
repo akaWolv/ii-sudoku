@@ -21,7 +21,9 @@
   - **React Context:** `ThemeColorModeContext` (`light` | `dark`).
   - **Custom Hooks / Local State:** `useBoardManager` for board state, active tile highlight, validation.
   - **URL Route State:** Current board snapshot encoded in route path `/:difficultyLevelKey/:gameKey`.
-- **Persistence:** `js-cookie` (stores `themeMode` and `stopwatch` elapsed seconds).
+- **Persistence:**
+  - `localStorage` (key: `ii_sudoku_saved_games` for saved games history, progress %, and per-game elapsed time).
+  - `js-cookie` (stores `themeMode`).
 
 ---
 
@@ -33,7 +35,7 @@ src/
 │   ├── useBoardGenerator.ts    # Recursive backtracking board generator & static tile carver
 │   ├── useBoardHelper.ts       # Board encoding/decoding, conflict validation, line/square lookups
 │   ├── useBoardManager.ts     # Game orchestrator, selection state, cell mutation, route synchronization
-│   └── useStopwatchManager.ts  # Cookie-backed timer controller dispatching to Redux
+│   └── useStopwatchManager.ts  # Redux-backed timer controller with per-game time support
 ├── common/
 │   └── AppProvider/            # Composite providers (Redux Provider, MUI/Styled ThemeProvider, StopwatchWrapper)
 ├── components/
@@ -41,9 +43,10 @@ src/
 │   ├── Controls/               # 1-9 keypad + erase button, disabled state based on hints/conflicts
 │   ├── DifficultyLevelMenu/    # Difficulty selection list (tile counts, hint badges)
 │   ├── Game/                   # Main game screen orchestrating TopBar, Board, Controls
-│   ├── MenuModal/              # Modal menu with difficulty picker and theme switcher
+│   ├── MenuModal/              # Modal menu with New Game trigger and theme switcher
 │   ├── PleaseRotate/           # Orientation barrier for mobile landscape (< 700px height)
-│   ├── Start/                  # Landing page
+│   ├── SavedGames/             # Saved games list view with filtering, sorting, and resume actions
+│   ├── Start/                  # Landing page with conditional Saved Games entry
 │   ├── StartLevel/             # Board initialization route; triggers generator & redirects to Game
 │   ├── ThemeSwitch/            # Light/Dark mode toggle control
 │   ├── Tile/                   # Single Sudoku cell with conflict, group, and value styling
@@ -62,6 +65,7 @@ src/
 │   └── stopwatch/              # Redux slice for elapsed time and interval ID
 ├── helpers/
 │   ├── materialTheme.ts        # Dynamic MUI theme generator with custom component overrides
+│   ├── savedGamesStorage.ts    # localStorage CRUD, progress calculation, and board template IDs
 │   └── index.ts
 ├── stores/
 │   └── stopwatch.ts            # Root Redux store configuration
@@ -99,7 +103,11 @@ The board is represented as an 81-character string serialized into the URL:
    - Typing or clicking a number in `Controls` modifies `field.value`, regenerates the 81-character code, and calls `navigate('/' + difficultyLevel.key + '/' + boardCode)`.
 4. **Completion:**
    - When all 81 fields are valid and non-empty (`isStatic || value`), `isGameFinished` becomes `true`.
-   - Stopwatch halts and `<WinnerBlend>` overlay is displayed.
+   - Stopwatch halts, status transitions to `finished` in `localStorage`, and `<WinnerBlend>` overlay is displayed.
+5. **Persistence & Saved Games (`/saved`):**
+   - Every game start, move, or completion automatically synchronizes with `localStorage` (`ii_sudoku_saved_games`).
+   - Tracked properties: `id` (template hash), `difficultyKey`, `currentGameKey`, `elapsedSeconds`, `status` (`paused` | `finished`), `progressPercent`.
+   - Accessible via `/saved` or conditional button on `/`.
 
 ---
 
@@ -129,18 +137,11 @@ Configured via `.env`, `.env.example`, `.env.production`:
 
 Keep these edge cases and existing design issues in mind before making modifications:
 
-1. **Hard Page Navigation (`window.location.href`):**
-   - `StartLevel.tsx`, `DifficultyLevelMenu.tsx`, and `WinnerBlend.tsx` use `window.location.href = ...` rather than `useNavigate()` or `<Link>`.
-   - This causes full page reloads, re-instantiating the entire React tree and re-reading cookies. When modifying routing, prefer `useNavigate()` for SPA transitions.
-
-2. **Redundant Redux Provider Nesting:**
-   - `<Provider store={store}>` is wrapped twice: once in `src/common/AppProvider/AppProvider.tsx` and again in `src/common/AppProvider/ThemeProvider.tsx`.
-
-3. **Object Mutation in Custom Hooks:**
+1. **Object Mutation in Custom Hooks:**
    - `useBoardGenerator.ts` and `useBoardManager.ts` mutate `field` properties directly (`field.value = ...`, `field.isStatic = ...`) before spreading or setting state. Be cautious when introducing strict immutability checks.
 
-4. **Type Hygiene:**
+2. **Type Hygiene:**
    - Multiple components and hooks utilize `Function` or `React.FC<any>` (e.g., `setHighlightedField: Function`, `changeSelectedFieldValue: Function`). Replace with concrete callback types (`(field: Field) => void`, `(value: number) => void`) when refactoring.
 
-5. **Orientation Lock Limitation:**
+3. **Orientation Lock Limitation:**
    - `<PleaseRotate />` uses a CSS media query `(orientation:landscape) and (max-height: 700px)` alongside user-agent sniffing for iOS. Do not strip this without checking tablet/mobile responsive layout stability.

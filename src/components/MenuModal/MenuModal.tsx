@@ -1,15 +1,21 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Backdrop, Button, Fade, IconButton, Modal, Stack, Typography } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
-import DifficultyLevelMenu from '../DifficultyLevelMenu';
 import { StyledBox } from './MenuModal.styled';
 import ThemeSwitch from 'components/ThemeSwitch';
 import CloseIcon from '@mui/icons-material/Close';
 
 const MenuModal = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleNewGame = () => {
+    handleClose();
+    navigate('/');
+  };
 
   return (
     <>
@@ -41,9 +47,15 @@ const MenuModal = () => {
                 by <a href={'http://indieimp.com'}>IndieImp.com</a>
               </Typography>
               <br />
-              <Typography variant="h5" sx={{ fontWeight: 'lighter', marginBottom: '1em' }} >Start New Game</Typography>
-              <DifficultyLevelMenu />
-              <br />
+              <Button
+                size="large"
+                variant="outlined"
+                fullWidth
+                onClick={handleNewGame}
+                sx={{ marginBottom: '1.5em' }}
+              >
+                New Game
+              </Button>
               <Typography variant="h5" sx={{ fontWeight: 'lighter', marginBottom: '1em' }} >Change theme</Typography>
               <Stack alignItems="center">
                 <ThemeSwitch />

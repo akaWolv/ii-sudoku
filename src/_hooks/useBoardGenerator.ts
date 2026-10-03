@@ -46,7 +46,15 @@ const useBoardGenerator = (difficultyLevel: DifficultyLevel) => {
 
   const generateSquare = (previouslyGeneratedfieldList: Field[], squareLevel: number, report: any[]): Field[] => {
     const currentSquare = SQUARE_ORDER[squareLevel]
-    const fieldsToIterate = DefaultFieldList.filter(({ square }) => square === currentSquare)
+    const fieldsToIterate = DefaultFieldList
+      .filter(({ square }) => square === currentSquare)
+      .map((field) => ({
+        ...field,
+        generatedValue: null,
+        value: null,
+        isStatic: false,
+        isValid: true
+      }))
 
     const generatedSquareFieldList: Field[] = []
     while (fieldsToIterate.length > 0) {
@@ -91,17 +99,11 @@ const useBoardGenerator = (difficultyLevel: DifficultyLevel) => {
   }
 
   const pickStaticFields = (fieldList: Field[]): Field[] => {
-    // 38 fields for easy
-    // 32 fields for medium
-    // 28 fields for hard
-    // 22 fields for expert
-    // 16 fields for master
-    // const difficultyLevel = DifficultyLevelList.filter(({ level }) => level === DEFAULT_LEVEL)[0]
-    const { tilesPerSquare } = difficultyLevel
+    const tilesPerSquare = [...difficultyLevel.tilesPerSquare]
     const fieldIdListToMakeStatic: string[] = []
     SQUARE_ORDER.forEach((square) => {
       const randNumber = Math.floor(Math.random() * tilesPerSquare.length)
-      const numberOfTilesToMakeStatic = tilesPerSquare.splice(randNumber, 1).pop()
+      const numberOfTilesToMakeStatic = tilesPerSquare.splice(randNumber, 1).pop() || 0
       fieldIdListToMakeStatic.push(
         ...fieldList
           .filter((field) => field.square === square)
@@ -112,12 +114,12 @@ const useBoardGenerator = (difficultyLevel: DifficultyLevel) => {
     })
 
     return fieldList.map((field) => {
-      if (fieldIdListToMakeStatic.includes(field.id)) {
-        field.isStatic = true
-        field.value = field.generatedValue
-        return {...field}
+      const isStatic = fieldIdListToMakeStatic.includes(field.id)
+      return {
+        ...field,
+        isStatic,
+        value: isStatic ? field.generatedValue : null
       }
-      return field
     })
   }
 

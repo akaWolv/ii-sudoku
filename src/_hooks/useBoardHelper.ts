@@ -23,8 +23,8 @@ const useBoardHelper = () => {
   }
 
   const getDifficultyLevelByKey = (levelKey: string): DifficultyLevel => {
-    return DifficultLevelList.filter(({ key }) => key === levelKey).pop()
-      || DifficultLevelList.filter(({ isDefault }) => Boolean(isDefault)).pop()
+    return DifficultLevelList.find(({ key }) => key === levelKey)
+      || DifficultLevelList.find(({ isDefault }) => Boolean(isDefault))
       || DifficultLevelList[0]
   }
 
@@ -43,7 +43,7 @@ const useBoardHelper = () => {
       return false
     }
     const singleCodeList = gameCode.split('')
-    const fieldList = [...DefaultFieldList]
+    const fieldList: Field[] = DefaultFieldList.map((field) => ({ ...field }))
 
     singleCodeList.forEach((singleCode, index) => {
       if (!fieldList[index]) {

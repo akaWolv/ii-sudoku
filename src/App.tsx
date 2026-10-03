@@ -4,6 +4,7 @@ import AppProvider from 'common/AppProvider'
 import Start from 'components/Start'
 import StartLevel from 'components/StartLevel'
 import Game from 'components/Game'
+import SavedGames from 'components/SavedGames'
 import PleaseRotate from './components/PleaseRotate'
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
           <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Start />} />
+                <Route path="/saved" element={<SavedGames />} />
                 <Route path="/:difficultyLevelKey" element={<StartLevel />} />
                 <Route path="/:difficultyLevelKey/:gameKey" element={<Game />} />
               </Routes>
