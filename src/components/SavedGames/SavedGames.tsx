@@ -106,6 +106,10 @@ const GameProgressCircle: React.FC<{ progressPercent: number; isCompleted: boole
   )
 }
 
+const getLevelColor = (key: string): string => {
+  return DifficultyLevelList.find((level) => level.key === key)?.color || '#000000'
+}
+
 const formatTime = (seconds: number): string => {
   const mins = Math.floor(seconds / 60)
   const secs = seconds % 60
@@ -288,7 +292,7 @@ const SavedGames: React.FC = () => {
                 <Box sx={{ flex: 1, minWidth: 0 }}>
                   {/* Top: Cells count + Difficulty chip + Time */}
                   <Stack direction="row" spacing={1.2} alignItems="center" flexWrap="wrap" sx={{ mb: 0.5 }}>
-                    <Typography variant="body1" component="span" sx={{ fontWeight: 700, fontSize: '0.95rem' }}>
+                    <Typography variant="body1" component="span" sx={{ fontWeight: 700 }}>
                       {game.filledCount} / {game.totalCount} cells
                     </Typography>
 
@@ -300,30 +304,32 @@ const SavedGames: React.FC = () => {
                         textTransform: 'capitalize',
                         fontWeight: 700,
                         fontSize: '0.75rem',
-                        height: 22
+                        height: 22,
+                        borderColor: getLevelColor(game.difficultyKey)
                       }}
                     />
 
-                    <Box
+                    <Chip
+                      label={formatTime(game.elapsedSeconds)}
+                      variant="outlined"
+                      color="primary"
+                      icon={<AccessTimeIcon />}
+                      size="small"
                       sx={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        opacity: 0.75,
-                        fontSize: '0.8rem',
-                        fontWeight: 500
+                        textTransform: 'capitalize',
+                        fontWeight: 700,
+                        fontSize: '0.75rem',
+                        height: 22
                       }}
-                    >
-                      <AccessTimeIcon sx={{ fontSize: '0.95rem', mr: 0.4 }} />
-                      {formatTime(game.elapsedSeconds)}
-                    </Box>
+                    />
                   </Stack>
 
                   {/* Bottom: Started + Last played */}
                   <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
-                    <Typography variant="caption" sx={{ opacity: 0.6, fontSize: '0.75rem' }}>
+                    <Typography variant="caption" sx={{ opacity: 0.8, fontSize: '0.8rem' }}>
                       Started: {formatDate(game.createdAt)}
                     </Typography>
-                    <Typography variant="caption" sx={{ opacity: 0.6, fontSize: '0.75rem' }}>
+                    <Typography variant="caption" sx={{ opacity: 0.8, fontSize: '0.8rem' }}>
                       Last played: {formatDate(game.updatedAt)}
                     </Typography>
                   </Stack>

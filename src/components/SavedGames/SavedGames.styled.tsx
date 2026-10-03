@@ -33,10 +33,6 @@ export const StyledGameCard = styled(Paper)`
   flex-direction: column;
   gap: 10px;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-  }
 `
 
 export const StyledGameRow = styled.div`

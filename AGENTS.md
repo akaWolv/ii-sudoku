@@ -145,3 +145,18 @@ Keep these edge cases and existing design issues in mind before making modificat
 
 3. **Orientation Lock Limitation:**
    - `<PleaseRotate />` uses a CSS media query `(orientation:landscape) and (max-height: 700px)` alongside user-agent sniffing for iOS. Do not strip this without checking tablet/mobile responsive layout stability.
+
+---
+
+## 7. Progressive Web App (PWA) Architecture
+
+- **Manifest:** `public/manifest.webmanifest` & `public/manifest.json` (`display: standalone`, `theme_color: #d18800`, shortcuts, icon sets).
+- **Icons:** `public/icons/` (`icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `apple-touch-icon.png`, `icon.svg`).
+- **Service Worker:** `public/sw.js`
+  - Pre-caches core App Shell (`/`, `/index.html`, `/manifest.webmanifest`, icons, favicon).
+  - Navigation Fallback: Network-first with offline fallback to `/index.html` (supports full client-side routing and offline gameplay).
+  - Runtime Cache: Stale-While-Revalidate for same-origin static assets; Cache-First with background revalidation for third-party assets (Google Fonts).
+  - Lifecycle: `skipWaiting()` on install, `clients.claim()` and stale cache cleanup on activate.
+- **Client Helper & Hooks:** `src/pwa.ts`
+  - `registerServiceWorker()`: Bootstrapped at app init (`src/main.tsx`).
+  - `usePwaInstall()`: React hook capturing `beforeinstallprompt` / `appinstalled` events and providing reactive `isInstallable` state and `installApp()` trigger for UI buttons.

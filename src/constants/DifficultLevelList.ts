@@ -7,7 +7,9 @@ const DifficultyLevelList: DifficultyLevel[] = [
     staticTiles: 38,
     tilesPerSquare: [5, 5, 4, 4, 4, 4, 4, 4, 4],
     text: 'easy',
-    isHintingEnabled: true
+    color: '#4caf50',
+    desc: 'Great for casual play and beginners',
+    isHintingEnabled: true,
   },
   {
     level: 2,
@@ -15,8 +17,10 @@ const DifficultyLevelList: DifficultyLevel[] = [
     staticTiles: 32,
     tilesPerSquare: [5, 4, 4, 4, 3, 3, 3, 3, 3],
     text: 'medium',
+    color: '#2196f3',
+    desc: 'Balanced classic challenge',
     isHintingEnabled: true,
-    isDefault: true
+    isDefault: true,
   },
   {
     level: 3,
@@ -24,21 +28,27 @@ const DifficultyLevelList: DifficultyLevel[] = [
     staticTiles: 28,
     tilesPerSquare: [4, 3, 3, 3, 3, 3, 3, 3, 3],
     text: 'hard',
-    isHintingEnabled: true
+    color: '#ff9800',
+    desc: 'Advanced logic deduction',
+    isHintingEnabled: true,
   },
   {
     level: 4,
     key: 'expert',
     staticTiles: 22,
     tilesPerSquare: [3, 3, 3, 3, 2, 2, 2, 2, 2],
-    text: 'expert'
+    text: 'expert',
+    color: '#e91e63',
+    desc: 'No hints • High difficulty',
   },
   {
     level: 5,
     key: 'master',
     staticTiles: 16,
     tilesPerSquare: [2, 2, 2, 2, 2, 2, 2, 1, 1],
-    text: 'master'
+    text: 'master',
+    color: '#9c27b0',
+    desc: 'No hints • Minimal clues masterclass',
   },
   {
     level: 6,
@@ -46,6 +56,8 @@ const DifficultyLevelList: DifficultyLevel[] = [
     staticTiles: 80,
     tilesPerSquare: [8, 9, 9, 9, 9, 9, 9, 9, 9],
     text: 'one shot',
+    color: '#ffb300',
+    desc: '1 cell to solve • Instant speedrun',
     isHintingEnabled: true,
   },
 ]

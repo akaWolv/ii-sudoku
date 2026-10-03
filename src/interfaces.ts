@@ -20,8 +20,10 @@ type DifficultyLevel = {
   staticTiles: number
   tilesPerSquare: number[]
   text: string
+  color: string
+  desc: string
   isDefault?: boolean
-  isHintingEnabled? :boolean
+  isHintingEnabled?: boolean
 }
 
 type ThemeColorMode = 'light' | 'dark'

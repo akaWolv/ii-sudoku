@@ -20,13 +20,16 @@ import CloseIcon from '@mui/icons-material/Close'
 import ShareIcon from '@mui/icons-material/Share'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import CheckIcon from '@mui/icons-material/Check'
+import GetAppIcon from '@mui/icons-material/GetApp'
 import { StyledBox } from './MenuModal.styled'
 import ThemeSwitch from 'components/ThemeSwitch'
 import { calculateProgress, getInitialTemplateId } from 'helpers/savedGamesStorage'
+import { usePwaInstall } from 'pwa'
 
 const MenuModal = () => {
   const navigate = useNavigate()
   const { difficultyLevelKey, gameKey } = useParams()
+  const { shouldShowInstallButton, installApp } = usePwaInstall()
   const [open, setOpen] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
   const [shareType, setShareType] = useState<'empty' | 'current' | null>(null)
@@ -147,6 +150,18 @@ const MenuModal = () => {
               >
                 Share this board
               </Button>
+              {shouldShowInstallButton && (
+                <Button
+                  size="large"
+                  variant="outlined"
+                  fullWidth
+                  onClick={installApp}
+                  startIcon={<GetAppIcon />}
+                  sx={{ marginBottom: '1em' }}
+                >
+                  Install App
+                </Button>
+              )}
               <Button
                 size="large"
                 variant="outlined"
