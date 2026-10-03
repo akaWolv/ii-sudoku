@@ -1,5 +1,5 @@
 import { DifficultyLevel, Field } from 'interfaces'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useBoardGenerator from '_hooks/useBoardGenerator'
 import useBoardHelper from '_hooks/useBoardHelper'
@@ -8,42 +8,45 @@ import useStopwatchManager from '_hooks/useStopwatchManager'
 const useBoardManager = (difficultyLevel: DifficultyLevel) => {
   const navigate = useNavigate()
   const { stopTimer } = useStopwatchManager()
-  const { getBoardCode, getBoardFromCode, getInvalidValuesForField } = useBoardHelper()
+  const {
+    getBoardCode,
+    getBoardFromCode,
+    getInvalidValuesForField,
+    validateFields,
+    getFieldsFromSameGroups
+  } = useBoardHelper()
   const { getReport } = useBoardGenerator(difficultyLevel)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
   const [fieldList, setFieldList] = useState<Field[]>([])
   const [highlightedField, setHighlightedField] = useState<Field | undefined>(undefined)
   const [isGameFinished, setIsGameFinished] = useState<boolean>(false)
+  const lastLoadedKey = useRef<string | null>(null)
   const { isHintingEnabled } = difficultyLevel
 
-  const getFieldsFromSameGroups = (
-    { square, vLine, hLine }: Field,
-    fieldList: Field[]
-  ) => {
-    return fieldList
-      .filter((field) => {
-        switch (true) {
-          case field.square === square:
-          case field.vLine === vLine:
-          case field.hLine === hLine:
-            return true
-        }
-        return false
-      })
+  const checkAndHandleGameFinished = (fields: Field[]): boolean => {
+    const finished = fields.length === 81 && fields.every(
+      ({ value, isStatic, isValid }) => (isStatic || Boolean(value)) && isValid
+    )
+    setIsGameFinished(finished)
+    if (finished) {
+      stopTimer()
+    }
+    return finished
   }
 
   const getFieldListFromKey = (gameKey?: string): Field[] | false => {
-    const predefinedFieldList = getBoardFromCode(gameKey || '')
+    if (!gameKey) {
+      return false
+    }
+    if (lastLoadedKey.current === gameKey) {
+      return fieldList
+    }
+    const predefinedFieldList = getBoardFromCode(gameKey)
     if (predefinedFieldList) {
+      lastLoadedKey.current = gameKey
       setFieldList(predefinedFieldList)
       setIsLoaded(true)
-      const isGameFinished = predefinedFieldList
-          .filter(({ value, isStatic, isValid }) => (isStatic || Boolean(value)) && isValid)
-          .length === 81
-      setIsGameFinished(isGameFinished)
-      if (isGameFinished) {
-        stopTimer()
-      }
+      checkAndHandleGameFinished(predefinedFieldList)
       return predefinedFieldList
     }
     return false
@@ -68,15 +71,27 @@ const useBoardManager = (difficultyLevel: DifficultyLevel) => {
     if (!highlightedField) {
       return
     }
-    highlightedField.value = value
-    fieldList.forEach((field) => {
+
+    const val = value || null
+    const updatedFieldList = fieldList.map((field) => {
       if (field.id === highlightedField.id) {
-        field.value = value
+        return { ...field, value: val }
       }
+      return { ...field }
     })
 
-    setHighlightedField({ ...highlightedField })
-    const boardCode = getBoardCode(fieldList)
+    const validated = validateFields(updatedFieldList)
+    setFieldList(validated)
+
+    const updatedHighlighted = validated.find((field) => field.id === highlightedField.id)
+    if (updatedHighlighted) {
+      setHighlightedField(updatedHighlighted)
+    }
+
+    checkAndHandleGameFinished(validated)
+
+    const boardCode = getBoardCode(validated)
+    lastLoadedKey.current = boardCode
     navigate(`/${difficultyLevel.key}/${boardCode}`)
   }
 
