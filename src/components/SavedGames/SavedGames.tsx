@@ -4,6 +4,11 @@ import {
   Box,
   Button,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   FormControl,
   Grid,
   IconButton,
@@ -63,10 +68,22 @@ const SavedGames: React.FC = () => {
   const [difficultyFilter, setDifficultyFilter] = useState<string>('all')
   const [sortBy, setSortBy] = useState<'updatedAt_desc' | 'createdAt_desc' | 'progress_desc'>('updatedAt_desc')
 
-  const handleDelete = (id: string, e: React.MouseEvent) => {
+  const [gameToDelete, setGameToDelete] = useState<SavedGame | null>(null)
+
+  const handleDeleteClick = (game: SavedGame, e: React.MouseEvent) => {
     e.stopPropagation()
-    const updated = deleteSavedGame(id)
+    setGameToDelete(game)
+  }
+
+  const handleConfirmDelete = () => {
+    if (!gameToDelete) return
+    const updated = deleteSavedGame(gameToDelete.id)
     setGames(updated)
+    setGameToDelete(null)
+  }
+
+  const handleCancelDelete = () => {
+    setGameToDelete(null)
   }
 
   const handleResume = (game: SavedGame) => {
@@ -244,7 +261,7 @@ const SavedGames: React.FC = () => {
                   <IconButton
                     size="small"
                     color="error"
-                    onClick={(e) => handleDelete(game.id, e)}
+                    onClick={(e) => handleDeleteClick(game, e)}
                     aria-label="delete game"
                   >
                     <DeleteOutlineIcon fontSize="small" />
@@ -263,6 +280,28 @@ const SavedGames: React.FC = () => {
           </StyledGameCard>
         ))
       )}
+
+      <Dialog
+        open={Boolean(gameToDelete)}
+        onClose={handleCancelDelete}
+        aria-labelledby="delete-dialog-title"
+        aria-describedby="delete-dialog-description"
+      >
+        <DialogTitle id="delete-dialog-title">Delete saved game?</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="delete-dialog-description">
+            Are you sure you want to delete this {gameToDelete?.difficultyText || gameToDelete?.difficultyKey} game ({gameToDelete?.progressPercent}% completed)? This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button onClick={handleCancelDelete} variant="outlined">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmDelete} variant="contained" color="error" autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </StyledSavedGamesContainer>
   )
 }

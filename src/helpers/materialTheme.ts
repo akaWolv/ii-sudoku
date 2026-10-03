@@ -9,14 +9,16 @@ const generateTheme = (selectedThemeColor: 'light' | 'dark' = 'light'): Theme =>
     palette: {
       mode: selectedThemeColor,
       primary: {
-        light: IMP_LIGHT_WHITE,
+        light: '#e59b1a',
         main: IMP_ORANGE,
-        dark: IMP_LIGHT_GREY
+        dark: '#b37400',
+        contrastText: '#111111'
       },
       secondary: {
         light: IMP_DARK_WHITE,
         main: IMP_PINK,
-        dark: IMP_DARK_GREY
+        dark: IMP_DARK_GREY,
+        contrastText: '#ffffff'
       }
     },
     typography: {
@@ -104,11 +106,29 @@ const generateTheme = (selectedThemeColor: 'light' | 'dark' = 'light'): Theme =>
       MuiButton: {
         styleOverrides: {
           root: {
-            color: themeColor(colors.grey[800], colors.grey[400]),
-            boxShadow: 'none'
+            boxShadow: 'none',
           },
           contained: {
-            color: themeColor(colors.grey[100], colors.grey[800]),
+            boxShadow: 'none',
+            fontWeight: 600,
+            '&:hover': {
+              boxShadow: 'none',
+            }
+          },
+          containedPrimary: {
+            backgroundColor: IMP_ORANGE,
+            color: '#111111',
+            '&:hover': {
+              backgroundColor: '#b87700',
+              color: '#000000',
+            }
+          },
+          containedSecondary: {
+            backgroundColor: IMP_PINK,
+            color: '#ffffff',
+            '&:hover': {
+              backgroundColor: '#b80090',
+            }
           }
         }
       },
