@@ -2,6 +2,9 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import AppProvider from './common/AppProvider'
 import App from './App'
+import { registerServiceWorker } from './pwa'
+
+registerServiceWorker()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <AppProvider>

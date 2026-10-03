@@ -20,14 +20,35 @@ type DifficultyLevel = {
   staticTiles: number
   tilesPerSquare: number[]
   text: string
+  color: string
+  desc: string
   isDefault?: boolean
-  isHintingEnabled? :boolean
+  isHintingEnabled?: boolean
 }
 
 type ThemeColorMode = 'light' | 'dark'
 
+type GameStatus = 'paused' | 'finished'
+
+interface SavedGame {
+  id: string
+  difficultyKey: string
+  difficultyText: string
+  initialGameKey: string
+  currentGameKey: string
+  elapsedSeconds: number
+  status: GameStatus
+  filledCount: number
+  totalCount: number
+  progressPercent: number
+  createdAt: number
+  updatedAt: number
+}
+
 export type {
   DifficultyLevel,
   Field,
-  ThemeColorMode
+  ThemeColorMode,
+  GameStatus,
+  SavedGame
 }

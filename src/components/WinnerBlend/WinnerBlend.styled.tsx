@@ -40,7 +40,7 @@ const StyledEmoji = styled(Typography)`
   font-size: 100px !important;
 `
 const StyledButton = styled(Button)`
-  color: ${colors.grey[100]} !important;
+  font-weight: 700 !important;
 `
 
 export {

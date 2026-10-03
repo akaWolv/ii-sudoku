@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Button, Chip, Grid } from '@mui/material'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 import DifficultyLevelList from 'constants/DifficultLevelList'
@@ -7,6 +8,7 @@ type DifficultyLevelMenu = {
   isRwd: boolean
 }
 const DifficultyLevelMenu: React.FC<any> = ({ isRwd }) => {
+  const navigate = useNavigate()
   const rwd = isRwd ? { md: 8, sm: 10, xs: 12 } : { md: 12, sm: 12, xs: 12 }
   return (
     <>
@@ -18,7 +20,7 @@ const DifficultyLevelMenu: React.FC<any> = ({ isRwd }) => {
               key={key}
               variant="outlined"
               onClick={() => {
-                window.location.href = `/${key}`
+                navigate(`/${key}`)
               }}
               fullWidth={true}
               sx={{

@@ -4,8 +4,6 @@ import { CssBaseline, ThemeProvider as MaterialThemeProvider } from '@mui/materi
 import Cookie from 'js-cookie'
 
 import generateTheme from 'helpers/materialTheme'
-import { store } from 'stores/stopwatch'
-import { Provider } from 'react-redux'
 import ThemeColorModeContext from 'context/ThemeColorModeContext';
 import { ThemeColorMode } from 'interfaces';
 
@@ -52,14 +50,12 @@ const ThemeProvider = ({ children }: { children: ReactNode }): ReactElement => {
   const theme = useMemo(() => generateTheme(themeColorMode.mode), [themeColorMode.mode])
   return (
     <ThemeColorModeContext.Provider value={themeColorMode}>
-      <Provider store={store}>
-        <MaterialThemeProvider theme={theme}>
-          <StyledThemeProvider theme={theme}>
-            <CssBaseline />
-            {children}
-          </StyledThemeProvider>
-        </MaterialThemeProvider>
-      </Provider>
+      <MaterialThemeProvider theme={theme}>
+        <StyledThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </StyledThemeProvider>
+      </MaterialThemeProvider>
     </ThemeColorModeContext.Provider>
   )
 }
