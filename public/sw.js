@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ii-sudoku-v1';
+const CACHE_NAME = 'ii-sudoku-v2';
 
 const STATIC_ASSETS = [
   '/',
@@ -6,7 +6,6 @@ const STATIC_ASSETS = [
   '/manifest.webmanifest',
   '/manifest.json',
   '/favicon.ico',
-  '/static/favicon.ico',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
   '/icons/icon-maskable-512.png',
@@ -18,9 +17,13 @@ const STATIC_ASSETS = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_ASSETS).catch((err) => {
-        console.warn('Some static assets failed to pre-cache:', err);
-      });
+      return Promise.allSettled(
+        STATIC_ASSETS.map((url) =>
+          cache.add(url).catch((err) => {
+            console.warn(`Failed to pre-cache ${url}:`, err);
+          })
+        )
+      );
     }).then(() => self.skipWaiting())
   );
 });
