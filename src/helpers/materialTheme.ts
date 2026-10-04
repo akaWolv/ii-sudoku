@@ -87,8 +87,8 @@ const generateTheme = (selectedThemeColor: 'light' | 'dark' = 'light'): Theme =>
               `linear-gradient(130deg, ${IMP_LIGHT_WHITE}, ${IMP_DARK_WHITE});`,
               `linear-gradient(130deg, ${IMP_LIGHT_GREY}, ${IMP_DARK_GREY});`
             ),
-            margin: '2vh 0',
-            padding: '10px 0',
+            margin: 0,
+            padding: 0,
             minHeight: '100%',
             fontFamily: 'Lato, sans-serif',
             WebkitFontSmoothing: 'antialiased',

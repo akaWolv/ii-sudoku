@@ -41,7 +41,7 @@ const Start: React.FC = () => {
       >
         Sudoku
       </Typography>
-      <Typography variant="subtitle2" sx={{ opacity: 0.75, mb: 3 }}>
+      <Typography variant="subtitle2" sx={{ opacity: 0.75, mb: 1.5 }}>
         by{' '}
         <a
           href="http://indieimp.com"
@@ -142,7 +142,7 @@ const Start: React.FC = () => {
       <Typography
         variant="caption"
         sx={{
-          mt: 3,
+          mt: 1.5,
           opacity: 0.5,
           fontFamily: 'monospace',
           letterSpacing: '0.05em',
