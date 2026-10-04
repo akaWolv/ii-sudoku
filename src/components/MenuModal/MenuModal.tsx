@@ -21,6 +21,8 @@ import ShareIcon from '@mui/icons-material/Share'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import CheckIcon from '@mui/icons-material/Check'
 import RefreshIcon from '@mui/icons-material/Refresh'
+import HistoryIcon from '@mui/icons-material/History'
+import ExitToAppSharp from '@mui/icons-material/ExitToAppSharp'
 import { StyledBox } from './MenuModal.styled'
 import ThemeSwitch from 'components/ThemeSwitch'
 import { calculateProgress, getInitialTemplateId } from 'helpers/savedGamesStorage'
@@ -135,6 +137,7 @@ const MenuModal = () => {
                 size="large"
                 variant="outlined"
                 fullWidth
+                startIcon={<HistoryIcon />}
                 onClick={handleLoadGame}
                 sx={{ marginBottom: '1em' }}
               >
@@ -166,6 +169,7 @@ const MenuModal = () => {
                 size="large"
                 variant="outlined"
                 fullWidth
+                startIcon={<ExitToAppSharp />}
                 onClick={handleQuitToMainMenu}
                 sx={{ marginBottom: '1.5em' }}
               >
