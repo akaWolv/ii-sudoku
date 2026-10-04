@@ -3,8 +3,14 @@ import react from '@vitejs/plugin-react'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig(({ mode }) => {
-  const { PORT } = loadEnv(mode, process.cwd(), '')
+  const env = loadEnv(mode, process.cwd(), '')
+  const PORT = env.PORT || 3002
+  const APP_VERSION = env.VITE_APP_VERSION || env.APP_VERSION || '1.0.0'
+
   return {
+    define: {
+      'import.meta.env.VITE_APP_VERSION': JSON.stringify(APP_VERSION)
+    },
     plugins: [
       react(),
       tsconfigPaths()

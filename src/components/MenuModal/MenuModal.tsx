@@ -20,16 +20,17 @@ import CloseIcon from '@mui/icons-material/Close'
 import ShareIcon from '@mui/icons-material/Share'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import CheckIcon from '@mui/icons-material/Check'
-import GetAppIcon from '@mui/icons-material/GetApp'
+import RefreshIcon from '@mui/icons-material/Refresh'
 import { StyledBox } from './MenuModal.styled'
 import ThemeSwitch from 'components/ThemeSwitch'
 import { calculateProgress, getInitialTemplateId } from 'helpers/savedGamesStorage'
 import { usePwaInstall } from 'pwa'
+import { APP_VERSION } from 'constants/Version'
 
 const MenuModal = () => {
   const navigate = useNavigate()
   const { difficultyLevelKey, gameKey } = useParams()
-  const { shouldShowInstallButton, installApp } = usePwaInstall()
+  const { isOnline, refreshApp } = usePwaInstall()
   const [open, setOpen] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
   const [shareType, setShareType] = useState<'empty' | 'current' | null>(null)
@@ -150,18 +151,17 @@ const MenuModal = () => {
               >
                 Share this board
               </Button>
-              {shouldShowInstallButton && (
-                <Button
-                  size="large"
-                  variant="outlined"
-                  fullWidth
-                  onClick={installApp}
-                  startIcon={<GetAppIcon />}
-                  sx={{ marginBottom: '1em' }}
-                >
-                  Install App
-                </Button>
-              )}
+              <Button
+                size="large"
+                variant="outlined"
+                fullWidth
+                disabled={!isOnline}
+                onClick={refreshApp}
+                startIcon={<RefreshIcon />}
+                sx={{ marginBottom: '1em' }}
+              >
+                {isOnline ? 'Check for app update' : 'No connection (offline)'}
+              </Button>
               <Button
                 size="large"
                 variant="outlined"
@@ -177,6 +177,19 @@ const MenuModal = () => {
               <Stack alignItems="center">
                 <ThemeSwitch />
               </Stack>
+              <Typography
+                variant="caption"
+                sx={{
+                  display: 'block',
+                  mt: 3,
+                  opacity: 0.5,
+                  fontFamily: 'monospace',
+                  letterSpacing: '0.05em',
+                  fontSize: '0.8em'
+                }}
+              >
+                v{APP_VERSION}
+              </Typography>
             </div>
           </StyledBox>
         </Fade>

@@ -15,28 +15,18 @@ import {
 } from '@mui/material'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import HistoryIcon from '@mui/icons-material/History'
-import GetAppIcon from '@mui/icons-material/GetApp'
-import CloseIcon from '@mui/icons-material/Close'
-import IosShareIcon from '@mui/icons-material/IosShare'
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined'
+import RefreshIcon from '@mui/icons-material/Refresh'
 import { StyledLogo, StyledPaper, StyledStart } from 'components/Start/Start.styled'
 import logo from 'indieimp.svg'
 import ThemeSwitch from 'components/ThemeSwitch'
 import { getSavedGames } from 'helpers/savedGamesStorage'
 import { usePwaInstall } from 'pwa'
+import { APP_VERSION } from 'constants/Version'
 
 const Start: React.FC = () => {
   const navigate = useNavigate()
   const savedGamesCount = useMemo(() => getSavedGames().length, [])
-  const { shouldShowInstallButton, installApp } = usePwaInstall()
-  const [installInfoOpen, setInstallInfoOpen] = useState(false)
-
-  const handleInstallClick = async () => {
-    const res = await installApp()
-    if (!res.triggered) {
-      setInstallInfoOpen(true)
-    }
-  }
+  const { isOnline, refreshApp } = usePwaInstall()
 
   return (
     <StyledStart>
@@ -119,25 +109,24 @@ const Start: React.FC = () => {
             )}
           </Button>
 
-          {shouldShowInstallButton && (
-            <Button
-              variant="outlined"
-              size="large"
-              fullWidth
-              startIcon={<GetAppIcon />}
-              onClick={handleInstallClick}
-              sx={{
-                py: 1.2,
-                fontSize: '0.95rem',
-                fontWeight: 600,
-                textTransform: 'none',
-                borderRadius: 2,
-                opacity: 0.9
-              }}
-            >
-              Install App
-            </Button>
-          )}
+          <Button
+            variant="outlined"
+            size="large"
+            fullWidth
+            disabled={!isOnline}
+            startIcon={<RefreshIcon />}
+            onClick={refreshApp}
+            sx={{
+              py: 1.2,
+              fontSize: '0.95rem',
+              fontWeight: 600,
+              textTransform: 'none',
+              borderRadius: 2,
+              opacity: isOnline ? 0.9 : 0.6
+            }}
+          >
+            {isOnline ? 'Check for app update' : 'No connection (offline)'}
+          </Button>
 
           <Divider sx={{ my: 1 }} />
 
@@ -150,58 +139,18 @@ const Start: React.FC = () => {
         </Stack>
       </StyledPaper>
 
-      {/* Helper Dialog for iOS Safari & manual desktop installation */}
-      <Dialog
-        open={installInfoOpen}
-        onClose={() => setInstallInfoOpen(false)}
-        maxWidth="xs"
-        fullWidth
-        PaperProps={{ sx: { borderRadius: 3, p: 1 } }}
+      <Typography
+        variant="caption"
+        sx={{
+          mt: 3,
+          opacity: 0.5,
+          fontFamily: 'monospace',
+          letterSpacing: '0.05em',
+          fontSize: '0.8em'
+        }}
       >
-        <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pb: 1 }}>
-          <Stack direction="row" spacing={1} alignItems="center">
-            <GetAppIcon color="primary" />
-            <Typography variant="h6" sx={{ fontWeight: 700 }}>
-              Install Sudoku PWA
-            </Typography>
-          </Stack>
-          <IconButton onClick={() => setInstallInfoOpen(false)} size="small">
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-
-        <DialogContent dividers sx={{ py: 2 }}>
-          <Typography variant="body2" sx={{ mb: 2 }}>
-            You can install Sudoku on your device for quick offline access:
-          </Typography>
-
-          <Stack spacing={2}>
-            <Box sx={{ p: 1.5, borderRadius: 2, bgcolor: (t) => t.palette.mode === 'light' ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.06)' }}>
-              <Typography variant="subtitle2" sx={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: 1 }}>
-                <IosShareIcon fontSize="small" /> iOS (Safari)
-              </Typography>
-              <Typography variant="caption" sx={{ display: 'block', mt: 0.5, opacity: 0.85 }}>
-                Tap the <strong>Share</strong> button in Safari toolbar, then select <strong>Add to Home Screen</strong> (<AddBoxOutlinedIcon sx={{ fontSize: 14, verticalAlign: 'text-bottom' }} />).
-              </Typography>
-            </Box>
-
-            <Box sx={{ p: 1.5, borderRadius: 2, bgcolor: (t) => t.palette.mode === 'light' ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.06)' }}>
-              <Typography variant="subtitle2" sx={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: 1 }}>
-                <GetAppIcon fontSize="small" /> Chrome / Edge / Android
-              </Typography>
-              <Typography variant="caption" sx={{ display: 'block', mt: 0.5, opacity: 0.85 }}>
-                Click the <strong>Install</strong> icon in your browser's address bar or menu.
-              </Typography>
-            </Box>
-          </Stack>
-        </DialogContent>
-
-        <DialogActions sx={{ px: 2, py: 1.5 }}>
-          <Button onClick={() => setInstallInfoOpen(false)} variant="contained" fullWidth>
-            Got it
-          </Button>
-        </DialogActions>
-      </Dialog>
+        v{APP_VERSION}
+      </Typography>
     </StyledStart>
   )
 }

@@ -71,9 +71,36 @@ export const promptPwaInstall = async (): Promise<boolean> => {
   }
 };
 
+export const refreshApp = async (): Promise<boolean> => {
+  if (typeof navigator !== 'undefined' && !navigator.onLine) {
+    return false;
+  }
+  try {
+    if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
+      const registration = await navigator.serviceWorker.getRegistration();
+      if (registration) {
+        if (registration.waiting) {
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        }
+        await registration.update();
+      }
+    }
+  } catch (err) {
+    console.warn('PWA refresh error:', err);
+  } finally {
+    if (typeof window !== 'undefined') {
+      window.location.reload();
+    }
+  }
+  return true;
+};
+
 export const usePwaInstall = () => {
   const [isStandalone, setIsStandalone] = useState(isStandalonePwa());
   const [canPrompt, setCanPrompt] = useState(canInstallPwa());
+  const [isOnline, setIsOnline] = useState(
+    typeof navigator !== 'undefined' ? navigator.onLine : true
+  );
 
   useEffect(() => {
     const checkStandalone = () => {
@@ -86,8 +113,13 @@ export const usePwaInstall = () => {
       setIsStandalone(true);
     };
 
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
     window.addEventListener('pwa-installable', handleInstallable);
     window.addEventListener('pwa-installed', handleInstalled);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
 
     const mql = window.matchMedia('(display-mode: standalone)');
     mql.addEventListener?.('change', checkStandalone);
@@ -95,6 +127,8 @@ export const usePwaInstall = () => {
     return () => {
       window.removeEventListener('pwa-installable', handleInstallable);
       window.removeEventListener('pwa-installed', handleInstalled);
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
       mql.removeEventListener?.('change', checkStandalone);
     };
   }, []);
@@ -118,6 +152,8 @@ export const usePwaInstall = () => {
     canPrompt,
     isInstallable: !isStandalone,
     shouldShowInstallButton: !isStandalone,
+    isOnline,
     installApp,
+    refreshApp,
   };
 };
